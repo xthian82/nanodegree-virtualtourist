@@ -58,16 +58,40 @@
 		C49D343523F3A80D0062224E /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
+				C49D344E23F3A8270062224E /* Controller */,
+				C49D344D23F3A81C0062224E /* Model */,
 				C49D343623F3A80D0062224E /* AppDelegate.swift */,
 				C49D343823F3A80D0062224E /* SceneDelegate.swift */,
-				C49D343A23F3A80D0062224E /* ViewController.swift */,
-				C49D343C23F3A80D0062224E /* Main.storyboard */,
-				C49D344223F3A80F0062224E /* Assets.xcassets */,
-				C49D344423F3A80F0062224E /* LaunchScreen.storyboard */,
+				C49D344F23F3A8340062224E /* View */,
 				C49D344723F3A80F0062224E /* Info.plist */,
 				C49D343F23F3A80D0062224E /* VirtualTourist.xcdatamodeld */,
 			);
 			path = VirtualTourist;
+			sourceTree = "<group>";
+		};
+		C49D344D23F3A81C0062224E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C49D344E23F3A8270062224E /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C49D343A23F3A80D0062224E /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		C49D344F23F3A8340062224E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C49D343C23F3A80D0062224E /* Main.storyboard */,
+				C49D344223F3A80F0062224E /* Assets.xcassets */,
+				C49D344423F3A80F0062224E /* LaunchScreen.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

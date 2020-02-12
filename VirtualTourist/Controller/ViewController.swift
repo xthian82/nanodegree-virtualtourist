@@ -7,14 +7,20 @@
 //
 
 import UIKit
+import MapKit
 
-class ViewController: UIViewController {
-
+@IBDesignable class ViewController: UIViewController, MKMapViewDelegate {
+    //MARK: Properties
+    @IBOutlet weak var mapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
 
 
+    @IBAction func selectPinTabLocation(_ sender: UITapGestureRecognizer) {
+        print("tap pin selected")
+    }
 }
 
