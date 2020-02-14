@@ -85,12 +85,27 @@
                                     <constraint firstAttribute="height" constant="180" id="Sm1-Wm-jgG"/>
                                 </constraints>
                             </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q7J-M0-Jhi">
+                                <rect key="frame" x="0.0" y="768" width="414" height="45"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="lbp-Ye-gyD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="New Collection">
+                                    <color key="titleShadowColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="BRB-W7-kNe" firstAttribute="trailing" secondItem="813-vC-1E4" secondAttribute="trailing" id="932-mP-ip9"/>
+                            <constraint firstItem="Q7J-M0-Jhi" firstAttribute="leading" secondItem="813-vC-1E4" secondAttribute="leading" id="DXQ-FW-TDf"/>
+                            <constraint firstItem="Q7J-M0-Jhi" firstAttribute="top" secondItem="813-vC-1E4" secondAttribute="bottom" constant="-45" id="e2f-Uz-3rM"/>
+                            <constraint firstItem="Q7J-M0-Jhi" firstAttribute="bottom" secondItem="813-vC-1E4" secondAttribute="bottom" id="gdJ-iR-J3m"/>
                             <constraint firstItem="BRB-W7-kNe" firstAttribute="top" secondItem="813-vC-1E4" secondAttribute="top" id="jDX-iV-KeZ"/>
                             <constraint firstItem="BRB-W7-kNe" firstAttribute="leading" secondItem="813-vC-1E4" secondAttribute="leading" id="shh-tU-98g"/>
+                            <constraint firstItem="Q7J-M0-Jhi" firstAttribute="trailing" secondItem="813-vC-1E4" secondAttribute="trailing" id="zag-Vj-ANl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="813-vC-1E4"/>
                     </view>
