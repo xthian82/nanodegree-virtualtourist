@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -96,13 +97,37 @@
                                     <color key="titleShadowColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="exA-3o-d63">
+                                <rect key="frame" x="5" y="268" width="404" height="505"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="VDR-DO-kW5">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="voF-br-b6G">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="HlE-UV-QTq">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="BRB-W7-kNe" firstAttribute="trailing" secondItem="813-vC-1E4" secondAttribute="trailing" id="932-mP-ip9"/>
+                            <constraint firstItem="exA-3o-d63" firstAttribute="leading" secondItem="813-vC-1E4" secondAttribute="leading" constant="5" id="9k9-Ds-Cmt"/>
+                            <constraint firstItem="exA-3o-d63" firstAttribute="bottom" secondItem="Q7J-M0-Jhi" secondAttribute="top" constant="5" id="BSx-wh-8Ov"/>
                             <constraint firstItem="Q7J-M0-Jhi" firstAttribute="leading" secondItem="813-vC-1E4" secondAttribute="leading" id="DXQ-FW-TDf"/>
                             <constraint firstItem="Q7J-M0-Jhi" firstAttribute="top" secondItem="813-vC-1E4" secondAttribute="bottom" constant="-45" id="e2f-Uz-3rM"/>
+                            <constraint firstItem="exA-3o-d63" firstAttribute="top" secondItem="BRB-W7-kNe" secondAttribute="bottom" id="ege-1K-Aik"/>
                             <constraint firstItem="Q7J-M0-Jhi" firstAttribute="bottom" secondItem="813-vC-1E4" secondAttribute="bottom" id="gdJ-iR-J3m"/>
+                            <constraint firstItem="exA-3o-d63" firstAttribute="trailing" secondItem="813-vC-1E4" secondAttribute="trailing" constant="-5" id="iun-XT-G6w"/>
                             <constraint firstItem="BRB-W7-kNe" firstAttribute="top" secondItem="813-vC-1E4" secondAttribute="top" id="jDX-iV-KeZ"/>
                             <constraint firstItem="BRB-W7-kNe" firstAttribute="leading" secondItem="813-vC-1E4" secondAttribute="leading" id="shh-tU-98g"/>
                             <constraint firstItem="Q7J-M0-Jhi" firstAttribute="trailing" secondItem="813-vC-1E4" secondAttribute="trailing" id="zag-Vj-ANl"/>
