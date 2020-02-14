@@ -7,5 +7,7 @@
 //
 
 struct Constants {
+
     static let pinId = "pin"
+    static let photoAlbumControllerId = "PhotoAlbumViewController"
 }

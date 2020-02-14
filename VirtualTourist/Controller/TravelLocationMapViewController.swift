@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-@IBDesignable class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate {
+class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate {
     
     // MARK: - Properties
     @IBOutlet weak var mapView: MKMapView!
@@ -27,22 +27,22 @@ import MapKit
 
     // MARK: - Map Functions
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return MapUtils.getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
+        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        // remove selection for later "reSelection"
+        // remove selection for later "re-selection"
         mapView.deselectAnnotation(view.annotation, animated: false)
         
-        let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
-        photoAlbumViewController.currentLocation = MapUtils.getAnnotationFromMapCoord(view.annotation!.coordinate)
+        let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController
+        photoAlbumViewController.currentLocation = getAnnotationFromMapCoord(view.annotation!.coordinate)
         self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
     }
     
     // MARK: - Delegate Actions
     @IBAction func selectedPointTapped(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-            navigateToLocation(mapView, to: MapUtils.convertGestureLocationToMapAnnotation(sender, mapView: mapView))
+            navigateToLocation(mapView, to: convertGestureLocationToMapAnnotation(sender, mapView: mapView))
         }
     }
     

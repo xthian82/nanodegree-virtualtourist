@@ -12,6 +12,7 @@ import MapKit
 class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate {
     
     //MARK: - Properties
+    let deltaSpan = CLLocationDegrees(0.3)
     var currentLocation: MKPointAnnotation?
     @IBOutlet weak var albumMapView: MKMapView!
     
@@ -23,12 +24,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UINavigatio
     
     override func viewWillAppear(_ animated: Bool) {
         if let currentLocation = currentLocation {
-            let coordinateSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.3), longitudeDelta: CLLocationDegrees(0.3))
+            let coordinateSpan = MKCoordinateSpan(latitudeDelta: deltaSpan, longitudeDelta: deltaSpan)
             let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, span: coordinateSpan)
-            
-            //let regionRadius: CLLocationDistance = 500
-            //let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate,
-            //                                          latitudinalMeters: regionRadius * 2.0, longitudinalMeters: regionRadius * 2.0)
             navigateToLocation(albumMapView, to: currentLocation, region: coordinateRegion)
         }
     }
@@ -41,7 +38,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UINavigatio
     
     //MARK: - Map Functions
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return MapUtils.getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
+        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
     }
     
     //MARK: - Buttons Actions
