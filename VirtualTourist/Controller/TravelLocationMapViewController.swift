@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 
 @IBDesignable class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate {
+    
     // MARK: - Properties
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deleteBarButton: UIBarButtonItem!
@@ -29,25 +30,19 @@ import MapKit
         return MapUtils.getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
     }
     
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        print("mapView annotation")
-        if control == view.rightCalloutAccessoryView {
-            print("searching annotation \(control)")
-            if let toOpen = view.annotation?.coordinate {
-                print("open coordinate on \(toOpen)")
-               /* UIApplication.shared.open(URL(string: toOpen)!, options: [:]) { (success) in
-                    if !success {
-                        ControllersUtil.presentAlert(controller: self, title: Errors.mainTitle, message: Errors.cannotOpenUrl)
-                    }
-                }*/
-            }
-        }
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        // remove selection for later "reSelection"
+        mapView.deselectAnnotation(view.annotation, animated: false)
+        
+        let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
+        photoAlbumViewController.currentLocation = MapUtils.getAnnotationFromMapCoord(view.annotation!.coordinate)
+        self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
     }
+    
     // MARK: - Delegate Actions
     @IBAction func selectedPointTapped(_ sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
-            print("searching location")
-            navigateToLocation(annotation: MapUtils.convertGestureLocationToMapAnnotation(sender, mapView: mapView))
+            navigateToLocation(mapView, to: MapUtils.convertGestureLocationToMapAnnotation(sender, mapView: mapView))
         }
     }
     
@@ -58,20 +53,7 @@ import MapKit
     
     // MARK: - Helpers Methods
     func enableTopBarButtons(_ isDeleteMode: Bool) {
-        if deleteEnabled {
-            deleteBarButton.image = UIImage(systemName: "trash")
-        } else {
-            deleteBarButton.image = UIImage(systemName: "checkmark.shield")
-        }
-    }
-    
-    func navigateToLocation(annotation: MKPointAnnotation) {
-        //activityIndicator.startAnimating()
-        mapView.removeAnnotation(annotation)
-        mapView.addAnnotation(annotation)
-        mapView.setCenter(annotation.coordinate, animated: true)
-        mapView.selectAnnotation(annotation, animated: true)
-        //activityIndicator.stopAnimating()
+        deleteBarButton.image = UIImage(systemName: deleteEnabled ? "pencil.tip.crop.circle.badge.minus" : "pencil.tip.crop.circle")
     }
 }
 

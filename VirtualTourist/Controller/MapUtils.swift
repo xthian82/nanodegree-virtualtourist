@@ -36,13 +36,26 @@ class MapUtils {
 
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            pinView!.canShowCallout = true
-            pinView!.pinTintColor = .red
-            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            pinView!.canShowCallout = false
+            pinView!.pinTintColor = .purple
+            pinView!.animatesDrop = true
         }
         else {
             pinView!.annotation = annotation
         }
         return pinView
     }
+    /*
+    class func setRegionMap(_ mapView: MKMapView, coordinate: CLLocationCoordinate2D) {
+        var mapRegion = MKCoordinateRegion()
+    
+        mapRegion.center = coordinate
+        mapRegion.span = MKCoordinateSpan(latitudeDelta: <#T##CLLocationDegrees#>, longitudeDelta: <#T##CLLocationDegrees#>)
+
+        let regionRadius: CLLocationDistance = 1000
+        let coordinateRegion = MKCoordinateRegion(center: coordinate,
+                                                  latitudinalMeters: regionRadius * 2.0, longitudinalMeters: regionRadius * 2.0)
+        
+        mapView.setRegion(coordinateRegion, animated: true)
+    }*/
 }
