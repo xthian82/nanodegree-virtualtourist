@@ -9,22 +9,28 @@
 import UIKit
 import MapKit
 
-class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate {
+class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate {
     
     //MARK: - Properties
-    let deltaSpan = CLLocationDegrees(0.3)
+    private let coordinateSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.3), longitudeDelta: CLLocationDegrees(0.3))
     var currentLocation: MKPointAnnotation?
+    
+    //MARK: - Outlets
     @IBOutlet weak var albumMapView: MKMapView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
     
     //MARK: - Navigation Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         albumMapView.delegate = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if let currentLocation = currentLocation {
-            let coordinateSpan = MKCoordinateSpan(latitudeDelta: deltaSpan, longitudeDelta: deltaSpan)
             let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, span: coordinateSpan)
             navigateToLocation(albumMapView, to: currentLocation, region: coordinateRegion)
         }
@@ -36,15 +42,17 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UINavigatio
         }
     }
     
-    //MARK: - Map Functions
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
-    }
-    
     //MARK: - Buttons Actions
     @IBAction func cancelActionTapped() {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: true)
         }
+    }
+}
+
+//MARK: - MapView
+extension PhotoAlbumViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
     }
 }
