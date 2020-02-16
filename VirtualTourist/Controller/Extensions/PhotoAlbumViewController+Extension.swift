@@ -17,9 +17,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     
     // TODO: implement load image in the background
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        //cell.imageViewDetail = UIImageView(image: UIImage(named: "AppIcon")!)
         cell.imageViewDetail.image = UIImage(named: "AppIcon")!
 
         return cell
@@ -27,9 +25,6 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     
     //TODO: implement delete from album an store
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath:IndexPath) {
-        //let detailController = self.storyboard!.instantiateViewController(withIdentifier: "MemeDetailViewController") as! MemeDetailViewController
-        //detailController.meme = self.memes[indexPath.row]
-        //self.navigationController!.pushViewController(detailController, animated: true)
         print("image selected at \(indexPath.row)")
     }
 }

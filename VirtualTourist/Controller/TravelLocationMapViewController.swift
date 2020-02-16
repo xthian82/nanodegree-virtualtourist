@@ -12,17 +12,20 @@ import MapKit
 class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate {
     
     // MARK: - Properties
+    var photoAlbumViewController: PhotoAlbumViewController!
+    var deleteMode = false
+
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deleteBarButton: UIBarButtonItem!
-    var deleteEnabled = true
     @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
     
     // MARK: Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        enableTopBarButtons(deleteEnabled)
+        enableTopBarButtons(deleteMode)
         mapView.delegate = self
+        photoAlbumViewController = (self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController)
     }
 
     // MARK: - Map Functions
@@ -34,9 +37,14 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         // remove selection for later "re-selection"
         mapView.deselectAnnotation(view.annotation, animated: false)
         
-        let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController
-        photoAlbumViewController.currentLocation = getAnnotationFromMapCoord(view.annotation!.coordinate)
-        self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
+        if deleteMode {
+            print("delete mode")
+        } else {
+        
+            //let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController
+            photoAlbumViewController.currentLocation = getAnnotationFromMapCoord(view.annotation!.coordinate)
+            self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
+        }
     }
     
     // MARK: - Delegate Actions
@@ -47,13 +55,14 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
     }
     
     @IBAction func topBarButtonSelected(_ sender: UIBarButtonItem) {
-        deleteEnabled = !deleteEnabled
-        enableTopBarButtons(deleteEnabled)
+        deleteMode = !deleteMode
+        enableTopBarButtons(deleteMode)
     }
     
     // MARK: - Helpers Methods
     func enableTopBarButtons(_ isDeleteMode: Bool) {
-        deleteBarButton.image = UIImage(systemName: deleteEnabled ? "pencil.tip.crop.circle.badge.minus" : "pencil.tip.crop.circle")
+        deleteBarButton.image = UIImage(systemName: !deleteMode ? "trash" : "trash.slash")
+        view.frame.origin.y = !deleteMode ? 0 : -60
     }
 }
 

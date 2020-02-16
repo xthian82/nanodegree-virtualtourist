@@ -40,10 +40,23 @@
                                     <outletCollection property="gestureRecognizers" destination="izP-PY-hTH" appends="YES" id="GJF-ZX-WCG"/>
                                 </connections>
                             </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1P-OW-Nbj">
+                                <rect key="frame" x="0.0" y="862" width="414" height="60"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="zHJ-7Z-2S6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="J1P-OW-Nbj" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="DeG-on-hcb"/>
                             <constraint firstItem="1XL-5h-Nwi" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Jo7-3W-i1u"/>
+                            <constraint firstItem="J1P-OW-Nbj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QjM-MQ-JMI"/>
+                            <constraint firstItem="J1P-OW-Nbj" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="XYn-4a-jSA"/>
                             <constraint firstItem="1XL-5h-Nwi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="chk-Zw-L1S"/>
                             <constraint firstItem="1XL-5h-Nwi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="js3-hv-9HW"/>
                             <constraint firstItem="1XL-5h-Nwi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="oIC-ka-dE4"/>
@@ -51,7 +64,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Virtual Tourist" id="hBS-f6-g1a">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="pencil.tip.crop.circle.badge.minus" catalog="system" id="ipm-4n-Upn">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="trash" catalog="system" id="ipm-4n-Upn">
                             <connections>
                                 <action selector="topBarButtonSelected:" destination="BYZ-38-t0r" id="R6A-sN-gsw"/>
                             </connections>
@@ -188,6 +201,6 @@
     </scenes>
     <resources>
         <image name="arrowshape.turn.up.left" catalog="system" width="64" height="52"/>
-        <image name="pencil.tip.crop.circle.badge.minus" catalog="system" width="64" height="50"/>
+        <image name="trash" catalog="system" width="60" height="64"/>
     </resources>
 </document>
