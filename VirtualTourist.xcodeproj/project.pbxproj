@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86556E5E23FB014A004CBA66 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86556E5D23FB014A004CBA66 /* UICollectionView+Extension.swift */; };
 		C495262423F61434005BD043 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495262323F61434005BD043 /* PhotoAlbumViewController.swift */; };
 		C495262623F61798005BD043 /* ViewController+Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495262523F61798005BD043 /* ViewController+Utility.swift */; };
 		C495262B23F64031005BD043 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495262A23F64031005BD043 /* Constants.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		86556E5D23FB014A004CBA66 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		C495262323F61434005BD043 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		C495262523F61798005BD043 /* ViewController+Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Utility.swift"; sourceTree = "<group>"; };
 		C495262A23F64031005BD043 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 			children = (
 				C495262523F61798005BD043 /* ViewController+Utility.swift */,
 				C495263A23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift */,
+				86556E5D23FB014A004CBA66 /* UICollectionView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86556E5E23FB014A004CBA66 /* UICollectionView+Extension.swift in Sources */,
 				C495263723F87DF2005BD043 /* Image.swift in Sources */,
 				C495262423F61434005BD043 /* PhotoAlbumViewController.swift in Sources */,
 				C495263523F87D24005BD043 /* PhotoAlbum.swift in Sources */,
