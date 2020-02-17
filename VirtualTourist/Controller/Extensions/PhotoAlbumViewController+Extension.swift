@@ -10,21 +10,45 @@ import UIKit
 
 extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
-    //TODO: implement count from store
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return images?.count ?? 0
     }
-    
-    // TODO: implement load image in the background
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        cell.imageViewDetail.image = UIImage(named: "AppIcon")!
 
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.collectionViewCell, for: indexPath) as! CollectionViewCell
+        let imgAlbum = images![indexPath.row]
+
+        asyncDowload(imgAlbum) { image in
+            cell.imageViewDetail.image = image
+        }
+        
         return cell
     }
     
     //TODO: implement delete from album an store
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath:IndexPath) {
-        print("image selected at \(indexPath.row)")
+        if !selectedItems.contains(indexPath.row) {
+            print("+ image added at \(indexPath.row)")
+            selectedItems.insert(indexPath.row)
+        } else {
+            print("- image removed at \(indexPath.row)")
+            selectedItems.remove(indexPath.row)
+        }
+        
+        isDeleteMode = (selectedItems.count != 0)
+        print("capacity = \(selectedItems.count), is Delete = \(isDeleteMode)")
+        //let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.collectionViewCell, for: indexPath) as! CollectionViewCell
+        //cell.isHighlighted = true
+    }
+      
+    func asyncDowload(_ image: Image, completionHandler handler: @escaping (_ image: UIImage) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async { () -> Void in
+            if let url = image.imageLocation(), let imgData = try? Data(contentsOf: url), let img = UIImage(data: imgData)
+            {
+                DispatchQueue.main.async(execute: { () -> Void in
+                        handler(img)
+                })
+            }
+        }
     }
 }

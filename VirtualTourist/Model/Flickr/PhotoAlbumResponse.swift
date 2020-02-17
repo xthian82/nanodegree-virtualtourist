@@ -6,6 +6,8 @@
 //  Copyright © 2020 Cristhian Recalde. All rights reserved.
 //
 
+import Foundation
+
 struct PhotoAlbumResponse: Codable {
 
     let photos: PhotoAlbum

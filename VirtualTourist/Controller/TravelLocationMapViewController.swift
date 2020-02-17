@@ -40,8 +40,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         if deleteMode {
             print("delete mode")
         } else {
-        
-            //let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController
             photoAlbumViewController.currentLocation = getAnnotationFromMapCoord(view.annotation!.coordinate)
             self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
         }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,7 +17,6 @@
 		C495263723F87DF2005BD043 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263623F87DF2005BD043 /* Image.swift */; };
 		C495263923F88CAE005BD043 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263823F88CAE005BD043 /* ErrorResponse.swift */; };
 		C495263B23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263A23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift */; };
-		C495264823F9A332005BD043 /* OAuthSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C495264723F9A332005BD043 /* OAuthSwift */; };
 		C495265023F9D29B005BD043 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495264F23F9D29B005BD043 /* CollectionViewCell.swift */; };
 		C49D343723F3A80D0062224E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49D343623F3A80D0062224E /* AppDelegate.swift */; };
 		C49D343923F3A80D0062224E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49D343823F3A80D0062224E /* SceneDelegate.swift */; };
@@ -56,7 +55,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C495264823F9A332005BD043 /* OAuthSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,15 +70,7 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		C495262E23F87044005BD043 /* Client */ = {
-			isa = PBXGroup;
-			children = (
-				C495262F23F87056005BD043 /* FlickrClient.swift */,
-			);
-			path = Client;
-			sourceTree = "<group>";
-		};
-		C495263123F87C17005BD043 /* Api */ = {
+		C495263123F87C17005BD043 /* Flickr */ = {
 			isa = PBXGroup;
 			children = (
 				C495263223F87C2C005BD043 /* PhotoAlbumResponse.swift */,
@@ -88,7 +78,7 @@
 				C495263623F87DF2005BD043 /* Image.swift */,
 				C495263823F88CAE005BD043 /* ErrorResponse.swift */,
 			);
-			path = Api;
+			path = Flickr;
 			sourceTree = "<group>";
 		};
 		C49D342A23F3A80D0062224E = {
@@ -110,11 +100,8 @@
 		C49D343523F3A80D0062224E /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
-				C495262E23F87044005BD043 /* Client */,
-				C49D344E23F3A8270062224E /* Controller */,
 				C49D344D23F3A81C0062224E /* Model */,
-				C49D343623F3A80D0062224E /* AppDelegate.swift */,
-				C49D343823F3A80D0062224E /* SceneDelegate.swift */,
+				C49D344E23F3A8270062224E /* Controller */,
 				C49D344F23F3A8340062224E /* View */,
 				C49D344723F3A80F0062224E /* Info.plist */,
 			);
@@ -124,7 +111,8 @@
 		C49D344D23F3A81C0062224E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C495263123F87C17005BD043 /* Api */,
+				C495262F23F87056005BD043 /* FlickrClient.swift */,
+				C495263123F87C17005BD043 /* Flickr */,
 				C49D343F23F3A80D0062224E /* VirtualTourist.xcdatamodeld */,
 				C495262A23F64031005BD043 /* Constants.swift */,
 				C495262C23F81CE4005BD043 /* PersistentContainer.swift */,
@@ -145,6 +133,8 @@
 		C49D344F23F3A8340062224E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C49D343623F3A80D0062224E /* AppDelegate.swift */,
+				C49D343823F3A80D0062224E /* SceneDelegate.swift */,
 				C49D343C23F3A80D0062224E /* Main.storyboard */,
 				C49D344223F3A80F0062224E /* Assets.xcassets */,
 				C49D344423F3A80F0062224E /* LaunchScreen.storyboard */,
@@ -170,7 +160,6 @@
 			);
 			name = VirtualTourist;
 			packageProductDependencies = (
-				C495264723F9A332005BD043 /* OAuthSwift */,
 			);
 			productName = VirtualTourist;
 			productReference = C49D343323F3A80D0062224E /* VirtualTourist.app */;
@@ -201,7 +190,6 @@
 			);
 			mainGroup = C49D342A23F3A80D0062224E;
 			packageReferences = (
-				C495264623F9A332005BD043 /* XCRemoteSwiftPackageReference "OAuthSwift" */,
 			);
 			productRefGroup = C49D343423F3A80D0062224E /* Products */;
 			projectDirPath = "";
@@ -442,25 +430,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C495264623F9A332005BD043 /* XCRemoteSwiftPackageReference "OAuthSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/OAuthSwift/OAuthSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C495264723F9A332005BD043 /* OAuthSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C495264623F9A332005BD043 /* XCRemoteSwiftPackageReference "OAuthSwift" */;
-			productName = OAuthSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		C49D343F23F3A80D0062224E /* VirtualTourist.xcdatamodeld */ = {
