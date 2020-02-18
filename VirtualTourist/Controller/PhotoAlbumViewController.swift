@@ -13,14 +13,13 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     //MARK: - Properties
     private let coordinateSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.3), longitudeDelta: CLLocationDegrees(0.3))
     let itemsPerRow: CGFloat = 3
-    //let sectionInsets = UIEdgeInsets(top: 50.0, left: 10.0, bottom: 50.0, right: 10.0)
+    //let sectionInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: 1.0, right: 1.0)
     
     // var currentLocation: MKPointAnnotation?
     var currentLocation = MKPointAnnotation()
     var images: [Image]?
     var pages: Int?
-    var selectedItems: Set<Int> = []
-    var isDeleteMode = false
+    var isEditMode = false
     
     //MARK: - Outlets
     @IBOutlet weak var albumMapView: MKMapView!
@@ -64,19 +63,20 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     
     @IBAction func getImagesFromLocation() {
         newCollectionButton.isEnabled = false
-        var pageNumber = 1
-        if let pages = pages {
-            pageNumber = Int.random(in: 1 ... pages)
+        
+        if (isEditMode) {
+            deleteCellItems()
+        } else {
+            downloadFlickrImages()
         }
-        FlickrClient.getPhotoFromsLocation(lat: currentLocation.coordinate.latitude, lon: currentLocation.coordinate.longitude, page: pageNumber) { (response, error) in
-            self.newCollectionButton.isEnabled = true
-            guard let photoAlbum = response else {
-                return
-            }
-            self.pages = photoAlbum.photos.pages
-            self.images = photoAlbum.photos.photo
-            self.collectionView.reloadData()
-        }
+        self.newCollectionButton.isEnabled = true
+        
+    }
+    
+    // MARK: - Helpers functions
+    // handle action button text
+    func changeTextButton() {
+        newCollectionButton.setTitle(isEditMode ? "Remove from collection" : "New Collection", for: .normal)
     }
 }
 

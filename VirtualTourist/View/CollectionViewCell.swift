@@ -8,8 +8,15 @@
 
 import UIKit
 
-@IBDesignable class CollectionViewCell: UICollectionViewCell {
+class CollectionViewCell: UICollectionViewCell {
+
     @IBOutlet var imageViewDetail: UIImageView!
+    
+    override var isSelected: Bool {
+        didSet {
+            imageViewDetail.alpha = self.isSelected ? 0.5 : 1.0
+        }
+    }
     
     override func awakeFromNib() {
        super.awakeFromNib()
