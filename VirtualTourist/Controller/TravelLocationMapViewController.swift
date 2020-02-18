@@ -30,7 +30,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
 
     // MARK: - Map Functions
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
+        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId, animate: !deleteMode)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -39,8 +39,9 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         
         if deleteMode {
             print("delete mode")
+            mapView.removeAnnotation(view.annotation!)
         } else {
-            photoAlbumViewController.currentLocation = getAnnotationFromMapCoord(view.annotation!.coordinate)
+            photoAlbumViewController.currentLocation = view.annotation! 
             self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
         }
     }

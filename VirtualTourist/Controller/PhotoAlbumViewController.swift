@@ -15,8 +15,8 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     let itemsPerRow: CGFloat = 3
     //let sectionInsets = UIEdgeInsets(top: 5.0, left: 0.0, bottom: 1.0, right: 1.0)
     
-    // var currentLocation: MKPointAnnotation?
-    var currentLocation = MKPointAnnotation()
+    var currentLocation: MKAnnotation?
+    // var currentLocation = MKPointAnnotation()
     var images: [Image]?
     var pages: Int?
     var isEditMode = false
@@ -34,24 +34,19 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
         albumMapView.delegate = self
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        //currentLocation = MKPointAnnotation()
-        //,
-        currentLocation.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(-25.434861),
-                                                            longitude: CLLocationDegrees(-49.2688997))
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        //if let currentLocation = currentLocation {
+        if let currentLocation = currentLocation {
             let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, span: coordinateSpan)
             navigateToLocation(albumMapView, to: currentLocation, region: coordinateRegion)
-        //}
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        //if let currentLocation = currentLocation {
+        if let currentLocation = currentLocation {
             albumMapView.removeAnnotation(currentLocation)
-        //}
+        }
     }
     
     //MARK: - Buttons Actions
@@ -61,7 +56,7 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
         }
     }
     
-    @IBAction func getImagesFromLocation() {
+    @IBAction func collectionButtonTapped(_ sender: UIButton) {
         newCollectionButton.isEnabled = false
         
         if (isEditMode) {
@@ -69,8 +64,6 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
         } else {
             downloadFlickrImages()
         }
-        self.newCollectionButton.isEnabled = true
-        
     }
     
     // MARK: - Helpers functions
@@ -83,6 +76,6 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
 //MARK: - MapView
 extension PhotoAlbumViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId)
+        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId, animate: false)
     }
 }

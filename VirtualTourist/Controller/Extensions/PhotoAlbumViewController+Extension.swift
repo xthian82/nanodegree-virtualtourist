@@ -52,39 +52,36 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     
     // MARK: - Helpers
     func downloadFlickrImages() {
-        if isEditMode {
-            print("[WARN] downlad collection in editMode not suported!")
-            return
-        }
-        
         // try to test different pages
         var pageNumber = 1
-        if let pages = pages {
+        if let pages = pages, pages > 0 {
             pageNumber = Int.random(in: 1 ... pages)
+        }
+        
+        guard let currentLocation = currentLocation else {
+            print("no location selected! ... quitting")
+            return
         }
 
         FlickrClient.getPhotoFromsLocation(lat: currentLocation.coordinate.latitude, lon: currentLocation.coordinate.longitude, page: pageNumber) { (response, error) in
+            self.newCollectionButton.isEnabled = true
             guard let photoAlbum = response else {
                 return
             }
             self.pages = photoAlbum.photos.pages
             self.images = photoAlbum.photos.photo
+            self.collectionView.reloadData()
         }
-        self.collectionView.reloadData()
     }
     
     func deleteCellItems() {
-        if !isEditMode {
-            print("[WARN] delete cell is not in editMode!")
-            return
-        }
-        
         if let selectedCells = collectionView.indexPathsForSelectedItems {
             let items = selectedCells.map { $0.item }.sorted().reversed()
             for item in items {
                 self.images?.remove(at: item)
             }
             collectionView.deleteItems(at: selectedCells)
+            self.newCollectionButton.isEnabled = true
         }
         
         setEditing(false, animated: true)
@@ -105,7 +102,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
             if let url = image.imageLocation(), let imgData = try? Data(contentsOf: url), let img = UIImage(data: imgData)
             {
                 DispatchQueue.main.async(execute: { () -> Void in
-                        handler(img)
+                    handler(img)
                 })
             }
         }

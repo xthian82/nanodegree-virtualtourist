@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="oEa-sf-qZd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="uoS-YU-cUe">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="1XL-5h-Nwi">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="S5C-da-jrY"/>
@@ -41,7 +41,7 @@
                                 </connections>
                             </mapView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J1P-OW-Nbj">
-                                <rect key="frame" x="0.0" y="862" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="896" width="414" height="60"/>
                                 <color key="backgroundColor" systemColor="systemPurpleColor" red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="zHJ-7Z-2S6"/>
@@ -54,9 +54,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="J1P-OW-Nbj" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="DeG-on-hcb"/>
-                            <constraint firstItem="1XL-5h-Nwi" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Jo7-3W-i1u"/>
+                            <constraint firstItem="1XL-5h-Nwi" firstAttribute="bottom" secondItem="8bC-Xf-vdC" secondAttribute="bottom" id="Jo7-3W-i1u"/>
                             <constraint firstItem="J1P-OW-Nbj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QjM-MQ-JMI"/>
-                            <constraint firstItem="J1P-OW-Nbj" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="XYn-4a-jSA"/>
+                            <constraint firstItem="J1P-OW-Nbj" firstAttribute="top" secondItem="1XL-5h-Nwi" secondAttribute="bottom" id="XYn-4a-jSA"/>
                             <constraint firstItem="1XL-5h-Nwi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="chk-Zw-L1S"/>
                             <constraint firstItem="1XL-5h-Nwi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="js3-hv-9HW"/>
                             <constraint firstItem="1XL-5h-Nwi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="oIC-ka-dE4"/>
@@ -144,7 +144,7 @@
                                     <color key="titleShadowColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="getImagesFromLocation" destination="lFR-Wh-84C" eventType="touchUpInside" id="jqa-4u-RYy"/>
+                                    <action selector="collectionButtonTapped:" destination="lFR-Wh-84C" eventType="touchDown" id="HMm-it-IWH"/>
                                 </connections>
                             </button>
                         </subviews>

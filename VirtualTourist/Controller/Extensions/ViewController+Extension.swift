@@ -12,7 +12,7 @@ import MapKit
 extension UIViewController {
     
     //MARK: - Navigation Map Utilities
-    func navigateToLocation(_ mapView: MKMapView, to annotation: MKPointAnnotation, region: MKCoordinateRegion? = nil) {
+    func navigateToLocation(_ mapView: MKMapView, to annotation: MKAnnotation, region: MKCoordinateRegion? = nil) {
         mapView.removeAnnotation(annotation)
         mapView.addAnnotation(annotation)
         mapView.setCenter(annotation.coordinate, animated: true)
@@ -20,12 +20,6 @@ extension UIViewController {
         if let region = region {
             mapView.setRegion(region, animated: true)
         }
-    }
-    
-    func getAnnotationFromMapCoord(_ locationCoordinate: CLLocationCoordinate2D) -> MKPointAnnotation {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = locationCoordinate
-        return annotation
     }
     
     // MARK: - Convertion utilities for map
@@ -44,14 +38,14 @@ extension UIViewController {
     }
     
     // MARK: - Pin View Map
-    func getPinViewFromMap(_ mapView: MKMapView, annotation: MKAnnotation, identifier: String) -> MKPinAnnotationView? {
+    func getPinViewFromMap(_ mapView: MKMapView, annotation: MKAnnotation, identifier: String, animate: Bool) -> MKPinAnnotationView? {
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
 
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             pinView!.canShowCallout = false
             pinView!.pinTintColor = .purple
-            pinView!.animatesDrop = true
+            pinView!.animatesDrop = animate
         }
         else {
             pinView!.annotation = annotation
