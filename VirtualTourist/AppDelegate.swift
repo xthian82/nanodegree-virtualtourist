@@ -17,16 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        saveContext()
-    }
-    
     func applicationWillTerminate(_ application: UIApplication) {
-        saveContext()
+        PersistentContainer.shared.saveContext()
     }
 
     // MARK: UISceneSession Lifecycle
-
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -38,31 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-    // MARK: - Core Data stack
-    //TODO: uncomment on finished model
-    /*lazy var persistentContainer: PersistentContainer = {
-        let container = PersistentContainer(modelName: "VirtualTourist")
-        container.load()
-        return container
-    }()*/
-
-    // MARK: - Core Data Saving support
-    func saveContext () {
-        //TODO: on finish uncomment
-        /*
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // TODO: Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }*/
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        PersistentContainer.shared.saveContext()
     }
-
 }
 

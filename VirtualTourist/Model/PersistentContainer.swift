@@ -9,6 +9,8 @@ import CoreData
 
 class PersistentContainer {
     
+    static let shared = PersistentContainer(modelName: "VirtualTourist")
+    
     let container: NSPersistentContainer
         
     var viewContext: NSManagedObjectContext {
@@ -27,22 +29,38 @@ class PersistentContainer {
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
         
-    init(modelName: String) {
+    private init(modelName: String) {
         container = NSPersistentContainer(name: modelName)
+        load()
     }
         
-    func load(completion: (() -> Void)? = nil) {
+    private func load(completion: (() -> Void)? = nil) {
         container.loadPersistentStores { (storeDescription, error) in
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
-            self.autoSaveViewContext()
+            //self.autoSaveViewContext()
             self.configureContexts()
             completion?()
         }
     }
     
-    func autoSaveViewContext(interval: TimeInterval = 30) {
+    func saveContext () {
+        if viewContext.hasChanges {
+            do {
+                print("saving context")
+                try viewContext.save()
+            } catch {
+                // TODO: Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
+    private func autoSaveViewContext(interval: TimeInterval = 30) {
+        print("autosaving... \(interval)")
         guard interval > 0 else {
             return
         }

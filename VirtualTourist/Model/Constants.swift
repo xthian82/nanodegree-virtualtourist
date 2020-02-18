@@ -9,6 +9,7 @@
 struct Constants {
 
     static let pinId = "pin"
+    static let pins = "pins"
     static let photoAlbumControllerId = "PhotoAlbumViewController"
     static let collectionViewCell = "CollectionViewCell"
 }
