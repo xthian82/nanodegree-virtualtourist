@@ -46,9 +46,10 @@ class PersistentContainer {
     }
     
     func saveContext () {
+        print("=> saveContext Called")
         if viewContext.hasChanges {
             do {
-                print("saving context")
+                print("==> Having changes, saving context!")
                 try viewContext.save()
             } catch {
                 // TODO: Replace this implementation with code to handle the error appropriately.

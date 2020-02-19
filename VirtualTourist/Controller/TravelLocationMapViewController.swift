@@ -16,10 +16,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
     var deleteMode = false
     var fetchedResultController: NSFetchedResultsController<Pin>!
     var isTapGesture = false
-    var mapCamera: MKMapCamera?
-    var mapRegion: MKCoordinateRegion?
-    var mapCameraZoom: MKMapView.CameraZoomRange?
-    var mapCenter: CLLocationCoordinate2D?
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deleteBarButton: UIBarButtonItem!
@@ -31,13 +27,17 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         // Do any additional setup after loading the view.
         enableTopBarButtons(deleteMode)
         mapView.delegate = self
-        fetchedResultController = setupFetchController(createFetchRequest(), delegate: self)
-        loadAnnotations()
+        //fetchedResultController = setupFetchController(createFetchRequest(), delegate: self)
+        //loadAnnotations(mapView: self.mapView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         fetchedResultController = setupFetchController(createFetchRequest(), delegate: self)
-        loadAnnotations()
+        loadAnnotations(mapView: self.mapView)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        updateMapPosition(mapView: mapView)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -52,12 +52,13 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         return map
     }
     
+    /*
     func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
         mapCamera = mapView.camera
         mapRegion = mapView.region
         mapCameraZoom = mapView.cameraZoomRange
         mapCenter = mapView.centerCoordinate
-    }
+    } */
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         // remove selection for later "re-selection"
@@ -75,46 +76,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
             photoAlbumViewController.pin = fetchPinFromMap(view.annotation!)
             self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
         }
-    }
-
-    private func loadAnnotations() {
-        isTapGesture = false
-        
-        if let pins = fetchedResultController.fetchedObjects {
-            print("pins size [\(pins.count)]")
-            for pin in pins {
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-                self.mapView.removeAnnotation(annotation)
-                self.mapView.addAnnotation(annotation)
-            }
-        }
-    }
-    
-    //MARK: - Core Data
-    func addPin(annotation: MKAnnotation) {
-        let pin = Pin(context: PersistentContainer.shared.viewContext)
-        pin.latitude = annotation.coordinate.latitude
-        pin.longitude = annotation.coordinate.longitude
-        PersistentContainer.shared.saveContext()
-    }
-    
-    func deletePin(annotation: MKAnnotation) {
-        if let pin = fetchPinFromMap(annotation) {
-            let pinToDelete = PersistentContainer.shared.viewContext.object(with: pin.objectID)
-            PersistentContainer.shared.deleObject(object: pinToDelete)
-        } else {
-            print("pin not found from annotation \(annotation)!!!!!")
-        }
-    }
-    
-    func fetchPinFromMap(_ annotation: MKAnnotation) -> Pin? {
-        let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [
-            NSPredicate(format: "latitude = %lf", annotation.coordinate.latitude),
-            NSPredicate(format: "longitude = %lf", annotation.coordinate.longitude)])
-        let filteredFetchRequest: NSFetchRequest<Pin> = createFetchRequest(predicate: compoundPredicate)
-        let filtredFetchedResults: NSFetchedResultsController<Pin> = setupFetchController(filteredFetchRequest, delegate: self)
-        return filtredFetchedResults.fetchedObjects?.first
     }
 
     // MARK: - Delegate Actions
