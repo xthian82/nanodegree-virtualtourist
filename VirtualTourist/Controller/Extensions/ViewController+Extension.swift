@@ -46,11 +46,12 @@ extension UIViewController {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             pinView!.canShowCallout = false
             pinView!.pinTintColor = .purple
-            pinView!.animatesDrop = animate
+            // pinView!.animatesDrop = animate
         }
         else {
             pinView!.annotation = annotation
         }
+        pinView!.animatesDrop = animate
         return pinView
     }
 
@@ -66,6 +67,7 @@ extension UIViewController {
         return fetchRequest
     }
     
+    /*
     func createFetchRequest(predicate: NSPredicate? = nil) -> NSFetchRequest<Photo> {
         let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
         
@@ -75,6 +77,14 @@ extension UIViewController {
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         return fetchRequest
+    }*/
+    
+    func performFetchRequest<Type: NSManagedObject>(_ fetchedResultController: NSFetchedResultsController<Type>) {
+        do {
+            try fetchedResultController.performFetch()
+        } catch {
+            fatalError("fetch error \(error.localizedDescription)")
+        }
     }
     
     func setupFetchController<Type: NSManagedObject>(_ fetchRequest: NSFetchRequest<Type>, delegate: NSFetchedResultsControllerDelegate, cacheName: String? = nil) -> NSFetchedResultsController<Type> {
@@ -83,11 +93,7 @@ extension UIViewController {
         
         fetchedResultController.delegate = delegate
 
-        do {
-            try fetchedResultController.performFetch()
-        } catch {
-            fatalError("fetch error \(error.localizedDescription)")
-        }
+        performFetchRequest(fetchedResultController)
         return fetchedResultController
     }
 }

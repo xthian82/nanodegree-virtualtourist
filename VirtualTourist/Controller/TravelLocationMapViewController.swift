@@ -13,11 +13,14 @@ import CoreData
 class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINavigationControllerDelegate, NSFetchedResultsControllerDelegate {
     
     // MARK: - Properties
-    var photoAlbumViewController: PhotoAlbumViewController!
     var deleteMode = false
     var fetchedResultController: NSFetchedResultsController<Pin>!
     var isTapGesture = false
-    
+    var mapCamera: MKMapCamera?
+    var mapRegion: MKCoordinateRegion?
+    var mapCameraZoom: MKMapView.CameraZoomRange?
+    var mapCenter: CLLocationCoordinate2D?
+
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deleteBarButton: UIBarButtonItem!
     @IBOutlet var longPressGesture: UILongPressGestureRecognizer!
@@ -28,7 +31,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         // Do any additional setup after loading the view.
         enableTopBarButtons(deleteMode)
         mapView.delegate = self
-        photoAlbumViewController = (self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController)
         fetchedResultController = setupFetchController(createFetchRequest(), delegate: self)
         loadAnnotations()
     }
@@ -50,27 +52,41 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         return map
     }
     
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        mapCamera = mapView.camera
+        mapRegion = mapView.region
+        mapCameraZoom = mapView.cameraZoomRange
+        mapCenter = mapView.centerCoordinate
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         // remove selection for later "re-selection"
-        mapView.deselectAnnotation(view.annotation, animated: false)
-    
+        
         if deleteMode {
             deletePin(annotation: view.annotation!)
+            DispatchQueue.main.async {
+                self.mapView.removeAnnotations([view.annotation!])
+                self.performFetchRequest(self.fetchedResultController)
+            }
         } else {
+            mapView.deselectAnnotation(view.annotation, animated: false)
+            let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController
             photoAlbumViewController.currentLocation = view.annotation!
-            photoAlbumViewController.pin = fetchPinFromMap(annotation: view.annotation!)
-            photoAlbumViewController.images = nil
+            photoAlbumViewController.pin = fetchPinFromMap(view.annotation!)
             self.navigationController!.pushViewController(photoAlbumViewController, animated: true)
         }
     }
-    
+
     private func loadAnnotations() {
+        isTapGesture = false
+        
         if let pins = fetchedResultController.fetchedObjects {
+            print("pins size [\(pins.count)]")
             for pin in pins {
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-                mapView.removeAnnotation(annotation)
-                mapView.addAnnotation(annotation)
+                self.mapView.removeAnnotation(annotation)
+                self.mapView.addAnnotation(annotation)
             }
         }
     }
@@ -84,25 +100,20 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
     }
     
     func deletePin(annotation: MKAnnotation) {
-        mapView.removeAnnotation(annotation)
-        
-        if let pin = fetchPinFromMap(annotation: annotation) {
+        if let pin = fetchPinFromMap(annotation) {
             let pinToDelete = PersistentContainer.shared.viewContext.object(with: pin.objectID)
-            PersistentContainer.shared.viewContext.delete(pinToDelete)
-            PersistentContainer.shared.saveContext()
+            PersistentContainer.shared.deleObject(object: pinToDelete)
         } else {
             print("pin not found from annotation \(annotation)!!!!!")
         }
     }
     
-    func fetchPinFromMap(annotation: MKAnnotation) -> Pin? {
+    func fetchPinFromMap(_ annotation: MKAnnotation) -> Pin? {
         let compoundPredicate = NSCompoundPredicate(type: .and, subpredicates: [
-                NSPredicate(format: "latitude = %@", annotation.coordinate.latitude),
-                NSPredicate(format: "longitude = %@", annotation.coordinate.longitude)])
-            
+            NSPredicate(format: "latitude = %lf", annotation.coordinate.latitude),
+            NSPredicate(format: "longitude = %lf", annotation.coordinate.longitude)])
         let filteredFetchRequest: NSFetchRequest<Pin> = createFetchRequest(predicate: compoundPredicate)
         let filtredFetchedResults: NSFetchedResultsController<Pin> = setupFetchController(filteredFetchRequest, delegate: self)
-        
         return filtredFetchedResults.fetchedObjects?.first
     }
 
@@ -127,4 +138,3 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         view.frame.origin.y = !deleteMode ? 0 : -60
     }
 }
-
