@@ -55,6 +55,7 @@
 		C49D344523F3A80F0062224E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C49D344723F3A80F0062224E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4E9B46823FB8B89001C03D0 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		C4E9B46C23FCA762001C03D0 /* VirtualTourist_createdate.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VirtualTourist_createdate.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,9 +113,9 @@
 				C49D344D23F3A81C0062224E /* Model */,
 				C49D344E23F3A8270062224E /* Controller */,
 				C49D344F23F3A8340062224E /* View */,
-				C49D344723F3A80F0062224E /* Info.plist */,
 				C49D343623F3A80D0062224E /* AppDelegate.swift */,
 				C49D343823F3A80D0062224E /* SceneDelegate.swift */,
+				C49D344723F3A80F0062224E /* Info.plist */,
 				C4E9B46923FB8BD4001C03D0 /* Storyboards */,
 			);
 			path = VirtualTourist;
@@ -127,9 +128,7 @@
 				C495263123F87C17005BD043 /* Flickr */,
 				C49D343F23F3A80D0062224E /* VirtualTourist.xcdatamodeld */,
 				C495262A23F64031005BD043 /* Constants.swift */,
-				C495262C23F81CE4005BD043 /* PersistentContainer.swift */,
-				8636B80923FC322400C319DD /* Pin+Extension.swift */,
-				8636B80B23FC323C00C319DD /* Photo+Extension.swift */,
+				C4E9B46D23FCEE75001C03D0 /* ManagedObjectContext */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +167,16 @@
 				C49D344423F3A80F0062224E /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		C4E9B46D23FCEE75001C03D0 /* ManagedObjectContext */ = {
+			isa = PBXGroup;
+			children = (
+				C495262C23F81CE4005BD043 /* PersistentContainer.swift */,
+				8636B80923FC322400C319DD /* Pin+Extension.swift */,
+				8636B80B23FC323C00C319DD /* Photo+Extension.swift */,
+			);
+			path = ManagedObjectContext;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -465,9 +474,10 @@
 		C49D343F23F3A80D0062224E /* VirtualTourist.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				C4E9B46C23FCA762001C03D0 /* VirtualTourist_createdate.xcdatamodel */,
 				C49D344023F3A80D0062224E /* VirtualTourist.xcdatamodel */,
 			);
-			currentVersion = C49D344023F3A80D0062224E /* VirtualTourist.xcdatamodel */;
+			currentVersion = C4E9B46C23FCA762001C03D0 /* VirtualTourist_createdate.xcdatamodel */;
 			path = VirtualTourist.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

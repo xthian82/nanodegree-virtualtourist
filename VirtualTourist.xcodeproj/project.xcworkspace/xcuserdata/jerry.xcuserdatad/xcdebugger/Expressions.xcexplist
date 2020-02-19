@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "TravelLocationMapViewController.reloadMap(_:toDelete:):TravelLocationMapViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "pins">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

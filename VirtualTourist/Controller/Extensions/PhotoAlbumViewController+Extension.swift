@@ -8,7 +8,9 @@
 
 import UIKit
 import Foundation
+import CoreData
 
+//MARK: Collection Delegate
 extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     //MARK: - Edit Mode?
@@ -107,4 +109,52 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
             }
         }
     }
+}
+
+// MARK: - Core Data Delegate
+extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
+    
+    // MARK: - Core Data
+    func setupPhotosResultsController() {
+        let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "pin == %@", pin!)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        
+        fetchedPhotosController = setupFetchController(fetchRequest, delegate: self, cacheName: "photos")
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        let indexSet = IndexSet(integer: sectionIndex)
+           
+        switch type {
+        case .insert: collectionView.insertSections(indexSet)
+            case .delete: collectionView.deleteSections(indexSet)
+            default:
+                fatalError("Invalid change type in controller(_:didChange:atSectionIndex:for:). Only .insert or .delete should be possible.")
+       }
+    }
+           
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+
+        switch type {
+           case .insert:
+               collectionView.insertItems(at: [newIndexPath!])
+           case .delete:
+               collectionView.deleteItems(at: [indexPath!])
+           case .update:
+               collectionView.reloadItems(at: [indexPath!])
+           case .move:
+               collectionView.moveItem(at: indexPath!, to: newIndexPath!)
+           default:
+               break
+           }
+    }
+    
+    //func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    //    collectionView.beginUpdates()
+    //}
+    
+    //func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    //    collectionView.endUpdates()
+    //}
 }

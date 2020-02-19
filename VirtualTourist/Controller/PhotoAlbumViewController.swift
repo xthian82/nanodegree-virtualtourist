@@ -7,6 +7,7 @@
 //
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate {
     
@@ -15,9 +16,11 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     let itemsPerRow: CGFloat = 3
     
     var currentLocation: MKAnnotation?
+    var pin: Pin?
     var images: [Image]?
     var pages: Int?
     var isEditMode = false
+    var fetchedPhotosController: NSFetchedResultsController<Photo>!
     
     //MARK: - Outlets
     @IBOutlet weak var albumMapView: MKMapView!
@@ -35,10 +38,12 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         if let currentLocation = currentLocation {
+            setupPhotosResultsController()
+            
             let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, span: coordinateSpan)
             navigateToLocation(albumMapView, to: currentLocation, region: coordinateRegion)
-            collectionView.reloadData()
         }
     }
 
@@ -46,6 +51,7 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
         if let currentLocation = currentLocation {
             albumMapView.removeAnnotation(currentLocation)
         }
+        fetchedPhotosController = nil
     }
     
     //MARK: - Buttons Actions

@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 extension UIViewController {
     
@@ -52,5 +53,41 @@ extension UIViewController {
         }
         return pinView
     }
+
+    // MARK: - Fetch Controller
+    func createFetchRequest(predicate: NSPredicate? = nil) -> NSFetchRequest<Pin> {
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        
+        if let predicate = predicate {
+            fetchRequest.predicate = predicate
+        }
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return fetchRequest
+    }
     
+    func createFetchRequest(predicate: NSPredicate? = nil) -> NSFetchRequest<Photo> {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        
+        if let predicate = predicate {
+            fetchRequest.predicate = predicate
+        }
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return fetchRequest
+    }
+    
+    func setupFetchController<Type: NSManagedObject>(_ fetchRequest: NSFetchRequest<Type>, delegate: NSFetchedResultsControllerDelegate, cacheName: String? = nil) -> NSFetchedResultsController<Type> {
+
+        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: PersistentContainer.shared.viewContext, sectionNameKeyPath: nil, cacheName: cacheName)
+        
+        fetchedResultController.delegate = delegate
+
+        do {
+            try fetchedResultController.performFetch()
+        } catch {
+            fatalError("fetch error \(error.localizedDescription)")
+        }
+        return fetchedResultController
+    }
 }
