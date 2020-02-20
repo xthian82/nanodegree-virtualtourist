@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate {
+class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate, MKMapViewDelegate {
     
     //MARK: - Properties
     private let coordinateSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.3), longitudeDelta: CLLocationDegrees(0.3))
@@ -17,7 +17,6 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     
     var currentLocation: MKAnnotation?
     var pin: Pin!
-    // var images: [Image]?
     var pages: Int?
     var isEditMode = false
     var fetchedPhotosController: NSFetchedResultsController<Photo>!
@@ -58,6 +57,11 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
             albumMapView.removeAnnotation(currentLocation)
         }
         fetchedPhotosController = nil
+    }
+    
+    //MARK: - MapView
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId, animate: false)
     }
     
     //MARK: - Buttons Actions

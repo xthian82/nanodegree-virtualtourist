@@ -78,7 +78,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
 
     // MARK: - Delegate Actions
     @IBAction func selectedPointTapped(_ sender: UILongPressGestureRecognizer) {
-        if sender.state == .began {
+        if sender.state == .began && !deleteMode {
             isTapGesture = true
             let annotation = convertGestureLocationToMapAnnotation(sender, mapView: mapView)
             addPin(annotation: annotation)

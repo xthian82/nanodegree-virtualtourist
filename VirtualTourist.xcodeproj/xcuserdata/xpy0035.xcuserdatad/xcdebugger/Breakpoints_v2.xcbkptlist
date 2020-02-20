@@ -14,8 +14,8 @@
             filePath = "VirtualTourist/Controller/Extensions/PhotoAlbumViewController+Extension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "61"
-            endingLineNumber = "61"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "downloadFlickrImages()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "VirtualTourist/Controller/Extensions/PhotoAlbumViewController+Extension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
             landmarkName = "downloadFlickrImages()"
             landmarkType = "7">
          </BreakpointContent>

@@ -33,6 +33,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     }
   
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        print("image photo being deleted at \(indexPath.row)")
         deletePhoto(indexPath)
     }
 
@@ -87,10 +88,6 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func deleteCellItems() {
         if let selectedCells = collectionView.indexPathsForSelectedItems {
-            //let items = selectedCells.map { $0.item }.sorted().reversed()
-            //for item in items {
-            //    self.images?.remove(at: item)
-            //}
             collectionView.deleteItems(at: selectedCells)
             self.newCollectionButton.isEnabled = true
         }
@@ -122,7 +119,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
 }
 
 // MARK: - Core Data Delegate
-extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate, MKMapViewDelegate {
+extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     
     // MARK: - Add Photo
     func addPhoto(_ image: Data) {
@@ -184,9 +181,4 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate, MKMapVie
     //func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     //    collectionView.endUpdates()
     //}
-
-    //MARK: - MapView
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId, animate: false)
-    }
 }
