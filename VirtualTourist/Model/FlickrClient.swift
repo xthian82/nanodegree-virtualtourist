@@ -47,9 +47,6 @@ class FlickrClient {
                 }
                 return
             }
-
-            //let rawString = String(data: data, encoding: .utf8)!
-            //print("rawVAl ===> \(rawString)")
             
             do {
                 let photoResponse = try decoder.decode(PhotoAlbumResponse.self, from: data)

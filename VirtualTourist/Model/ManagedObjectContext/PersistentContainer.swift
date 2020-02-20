@@ -39,17 +39,15 @@ class PersistentContainer {
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
-            //self.autoSaveViewContext()
+            self.autoSaveViewContext()
             self.configureContexts()
             completion?()
         }
     }
     
     func saveContext () {
-        print("=> saveContext Called")
         if viewContext.hasChanges {
             do {
-                print("==> Having changes, saving context!")
                 try viewContext.save()
             } catch {
                 // TODO: Replace this implementation with code to handle the error appropriately.
@@ -67,7 +65,6 @@ class PersistentContainer {
     }
     
     private func autoSaveViewContext(interval: TimeInterval = 30) {
-        print("autosaving... \(interval)")
         guard interval > 0 else {
             return
         }

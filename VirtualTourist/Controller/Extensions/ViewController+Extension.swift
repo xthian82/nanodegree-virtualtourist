@@ -46,11 +46,11 @@ extension UIViewController {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             pinView!.canShowCallout = false
             pinView!.pinTintColor = .purple
-            // pinView!.animatesDrop = animate
         }
         else {
             pinView!.annotation = annotation
         }
+
         pinView!.animatesDrop = animate
         return pinView
     }

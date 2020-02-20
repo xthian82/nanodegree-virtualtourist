@@ -77,12 +77,11 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
             if let images = photoAlbum.photos.photo {
                 for image in images {
                     self.asyncDowload(image) { _ in
-                //    cell.imageViewDetail.image = image
+                        //TODO: check this
                         self.collectionView.reloadData()
                     }
                 }
             }
-            // self.collectionView.reloadData()
         }
     }
     
@@ -95,7 +94,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         setEditing(false, animated: true)
     }
     
-    // utility to enable/disable edit mode
+    /// utility to enable/disable edit mode
     private func areAnyItemSelected() -> Bool {
         guard let selectedItems = collectionView.indexPathsForSelectedItems else {
             return false
@@ -104,7 +103,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         return selectedItems.count > 0
     }
 
-    // download image from collection cell in the background
+    /// download image from collection cell in the background
     private func asyncDowload(_ image: Image, completionHandler handler: @escaping (_ image: UIImage) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async { () -> Void in
             if let url = image.imageLocation(), let imgData = try? Data(contentsOf: url), let img = UIImage(data: imgData)
