@@ -6,7 +6,6 @@
 //  Copyright © 2020 Cristhian Recalde. All rights reserved.
 //
 
-import Foundation
 import CoreData
 
 extension Pin {
