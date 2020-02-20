@@ -17,15 +17,15 @@ class PersistentContainer {
         return container.viewContext
     }
         
-    var backgroundContext: NSManagedObjectContext!
+    //var backgroundContext: NSManagedObjectContext!
         
     func configureContexts() {
-        backgroundContext = container.newBackgroundContext()
+        //backgroundContext = container.newBackgroundContext()
             
         viewContext.automaticallyMergesChangesFromParent = true
-        backgroundContext.automaticallyMergesChangesFromParent = true
+        //backgroundContext.automaticallyMergesChangesFromParent = true
             
-        backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        //backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
         

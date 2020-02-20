@@ -12,6 +12,18 @@ import MapKit
 
 extension TravelLocationMapViewController {
     
+    // MARK: - Fetch Controller
+    func createFetchRequest(predicate: NSPredicate? = nil) -> NSFetchRequest<Pin> {
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        
+        if let predicate = predicate {
+            fetchRequest.predicate = predicate
+        }
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return fetchRequest
+    }
+    
     // MARK: - Load locations
     func loadAnnotations(mapView: MKMapView) {
         isTapGesture = false
@@ -58,7 +70,7 @@ extension TravelLocationMapViewController {
     // MARK: - Update Map Position
     func updateMapPosition(mapView: MKMapView) {
         print("updating map position")
-        
+        //TODO:
         /**
          var mapCamera: MKMapCamera?
          var mapRegion: MKCoordinateRegion?

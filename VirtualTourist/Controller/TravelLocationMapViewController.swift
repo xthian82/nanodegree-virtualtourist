@@ -27,8 +27,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         // Do any additional setup after loading the view.
         enableTopBarButtons(deleteMode)
         mapView.delegate = self
-        //fetchedResultController = setupFetchController(createFetchRequest(), delegate: self)
-        //loadAnnotations(mapView: self.mapView)
     }
     
     override func viewWillAppear(_ animated: Bool) {

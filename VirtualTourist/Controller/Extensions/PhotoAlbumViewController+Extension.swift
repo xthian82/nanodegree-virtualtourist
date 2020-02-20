@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Foundation
+import MapKit
 import CoreData
 
 //MARK: Collection Delegate
@@ -23,7 +23,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     
     //MARK: - Collection Functions
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let total = images?.count ?? 0
+        let total = fetchedPhotosController.fetchedObjects?.count ?? 0
         if (total == 0) {
             collectionView.setEmptyMessage("This pin has no images.")
         } else {
@@ -31,13 +31,15 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         }
         return total
     }
+  
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        deletePhoto(indexPath)
+    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.collectionViewCell, for: indexPath) as! CollectionViewCell
-        let imgAlbum = images![indexPath.row]
-        asyncDowload(imgAlbum) { image in
-            cell.imageViewDetail.image = image
-        }
+        let photo = fetchedPhotosController.object(at: indexPath)
+        cell.imageViewDetail.image = UIImage(data: photo.image!)
         
         return cell
     }
@@ -71,17 +73,24 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
                 return
             }
             self.pages = photoAlbum.photos.pages
-            self.images = photoAlbum.photos.photo
-            self.collectionView.reloadData()
+            if let images = photoAlbum.photos.photo {
+                for image in images {
+                    self.asyncDowload(image) { _ in
+                //    cell.imageViewDetail.image = image
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+            // self.collectionView.reloadData()
         }
     }
     
     func deleteCellItems() {
         if let selectedCells = collectionView.indexPathsForSelectedItems {
-            let items = selectedCells.map { $0.item }.sorted().reversed()
-            for item in items {
-                self.images?.remove(at: item)
-            }
+            //let items = selectedCells.map { $0.item }.sorted().reversed()
+            //for item in items {
+            //    self.images?.remove(at: item)
+            //}
             collectionView.deleteItems(at: selectedCells)
             self.newCollectionButton.isEnabled = true
         }
@@ -103,6 +112,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         DispatchQueue.global(qos: .userInitiated).async { () -> Void in
             if let url = image.imageLocation(), let imgData = try? Data(contentsOf: url), let img = UIImage(data: imgData)
             {
+                self.addPhoto(imgData)
                 DispatchQueue.main.async(execute: { () -> Void in
                     handler(img)
                 })
@@ -112,23 +122,40 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
 }
 
 // MARK: - Core Data Delegate
-extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
+extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate, MKMapViewDelegate {
     
-    // MARK: - Core Data
-    func setupPhotosResultsController() {
-        let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "pin == %@", pin!)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+    // MARK: - Add Photo
+    func addPhoto(_ image: Data) {
+        let photo = Photo(context: PersistentContainer.shared.viewContext)
+        photo.image = image
+        photo.pin = pin
         
-        fetchedPhotosController = setupFetchController(fetchRequest, delegate: self, cacheName: "photos")
+        PersistentContainer.shared.saveContext()
     }
     
+    // MARK: - Delete Photo
+    func deletePhoto(_ index: IndexPath) {
+        let photo = fetchedPhotosController.object(at: index)
+        PersistentContainer.shared.deleObject(object: photo)
+    }
+    
+    // MARK: - Fetch Controller
+    func createFetchRequest() -> NSFetchRequest<Photo> {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "pin == %@", pin)
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return fetchRequest
+    }
+    
+    // MARK: - Core Data Collection
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         let indexSet = IndexSet(integer: sectionIndex)
            
         switch type {
         case .insert: collectionView.insertSections(indexSet)
-            case .delete: collectionView.deleteSections(indexSet)
+            case .delete:
+                collectionView.deleteSections(indexSet)
             default:
                 fatalError("Invalid change type in controller(_:didChange:atSectionIndex:for:). Only .insert or .delete should be possible.")
        }
@@ -157,4 +184,9 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     //func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     //    collectionView.endUpdates()
     //}
+
+    //MARK: - MapView
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId, animate: false)
+    }
 }

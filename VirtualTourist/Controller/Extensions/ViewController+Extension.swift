@@ -54,31 +54,8 @@ extension UIViewController {
         pinView!.animatesDrop = animate
         return pinView
     }
-
-    // MARK: - Fetch Controller
-    func createFetchRequest(predicate: NSPredicate? = nil) -> NSFetchRequest<Pin> {
-        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        
-        if let predicate = predicate {
-            fetchRequest.predicate = predicate
-        }
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        return fetchRequest
-    }
     
-    /*
-    func createFetchRequest(predicate: NSPredicate? = nil) -> NSFetchRequest<Photo> {
-        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
-        
-        if let predicate = predicate {
-            fetchRequest.predicate = predicate
-        }
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        return fetchRequest
-    }*/
-    
+    // MARK: Core Data Fetch
     func performFetchRequest<Type: NSManagedObject>(_ fetchedResultController: NSFetchedResultsController<Type>) {
         do {
             try fetchedResultController.performFetch()

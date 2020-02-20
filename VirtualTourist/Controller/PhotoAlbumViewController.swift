@@ -16,8 +16,8 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     let itemsPerRow: CGFloat = 3
     
     var currentLocation: MKAnnotation?
-    var pin: Pin?
-    var images: [Image]?
+    var pin: Pin!
+    // var images: [Image]?
     var pages: Int?
     var isEditMode = false
     var fetchedPhotosController: NSFetchedResultsController<Photo>!
@@ -40,14 +40,20 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let currentLocation = currentLocation {
-            setupPhotosResultsController()
+            fetchedPhotosController = setupFetchController(createFetchRequest(), delegate: self)
             
             let coordinateRegion = MKCoordinateRegion(center: currentLocation.coordinate, span: coordinateSpan)
             navigateToLocation(albumMapView, to: currentLocation, region: coordinateRegion)
+            
+            if fetchedPhotosController.fetchedObjects?.count == 0 {
+                newCollectionButton.isEnabled = false
+                downloadFlickrImages()
+            }
         }
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         if let currentLocation = currentLocation {
             albumMapView.removeAnnotation(currentLocation)
         }
@@ -75,12 +81,5 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     // handle action button text
     func changeTextButton() {
         newCollectionButton.setTitle(isEditMode ? "Remove from collection" : "New Collection", for: .normal)
-    }
-}
-
-//MARK: - MapView
-extension PhotoAlbumViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId, animate: false)
     }
 }

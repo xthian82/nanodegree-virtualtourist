@@ -10,5 +10,13 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "PhotoAlbumViewController.viewWillAppear(_:):PhotoAlbumViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "fetchedPhotosController.fetchedObjects">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
    </ContextStates>
 </VariablesViewState>
