@@ -65,9 +65,10 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
 
         FlickrClient.getPhotoFromsLocation(lat: currentLocation.coordinate.latitude, lon: currentLocation.coordinate.longitude, page: pageNumber) { (response, error) in
             guard let photoAlbum = response else {
+                print("no photo downloaded. we quit")
                 return
             }
-            
+            print("total photos \(photoAlbum.photos.photo?.count ?? -1)")
             self.newCollectionButton.isEnabled = false
             self.pages = photoAlbum.photos.pages
             self.asyncDowload(photoAlbum.photos.photo, isFromCollectionButton: isFromCollectionButton, completionHandler: { hasData in

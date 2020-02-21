@@ -85,7 +85,6 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
         } else {
             downloadFlickrImages(isFromCollectionButton: true)
         }
-        try? fetchedPhotosController.performFetch()
     }
     
     // MARK: - Helpers functions

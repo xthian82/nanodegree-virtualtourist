@@ -26,6 +26,11 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     }
     
     func clearFetchedPhotos(isFromCollectionButton: Bool) {
+        if !isFromCollectionButton {
+            print("loading from view, no need to delete")
+            return
+        }
+        
         guard let photos = fetchedPhotosController.fetchedObjects else {
             print("no photos to delete")
             return
@@ -35,8 +40,6 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
             PersistentContainer.shared.deleObject(object: photo, save: false)
         }
         PersistentContainer.shared.saveContext()
-        print("refresh fetch")
-        try? fetchedPhotosController.performFetch()
         print("we leave now")
     }
     
@@ -82,12 +85,13 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
        }
     }
            
+
     // MARK: - Core Data didChange Object
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
         switch type {
         case .insert:
-            print("Insert Object: \(newIndexPath!)")
+            print("Insert Object: newIndex= \(newIndexPath), index = \(indexPath)")
             blockOperations.append(BlockOperation(block: { [weak self] in
                 if let this = self {
                     this.collectionView.insertItems(at: [newIndexPath!])
@@ -122,7 +126,7 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
             break
        }
     }
-    
+    /*
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.collectionView.performBatchUpdates({ () -> Void in
             for operation: BlockOperation in self.blockOperations {
@@ -131,5 +135,5 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
         }, completion: { (finished) -> Void in
             self.blockOperations.removeAll(keepingCapacity: false)
         })
-    }
+    }*/
 }
