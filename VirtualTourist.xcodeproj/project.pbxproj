@@ -21,7 +21,7 @@
 		C495263523F87D24005BD043 /* PhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263423F87D24005BD043 /* PhotoAlbum.swift */; };
 		C495263723F87DF2005BD043 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263623F87DF2005BD043 /* Image.swift */; };
 		C495263923F88CAE005BD043 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263823F88CAE005BD043 /* ErrorResponse.swift */; };
-		C495263B23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263A23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift */; };
+		C495263B23F8C014005BD043 /* PhotoAlbumViewController+CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495263A23F8C014005BD043 /* PhotoAlbumViewController+CollectionView.swift */; };
 		C495265023F9D29B005BD043 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C495264F23F9D29B005BD043 /* CollectionViewCell.swift */; };
 		C49D343723F3A80D0062224E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49D343623F3A80D0062224E /* AppDelegate.swift */; };
 		C49D343923F3A80D0062224E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49D343823F3A80D0062224E /* SceneDelegate.swift */; };
@@ -30,6 +30,7 @@
 		C49D344123F3A80D0062224E /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C49D343F23F3A80D0062224E /* VirtualTourist.xcdatamodeld */; };
 		C49D344323F3A80F0062224E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C49D344223F3A80F0062224E /* Assets.xcassets */; };
 		C49D344623F3A80F0062224E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C49D344423F3A80F0062224E /* LaunchScreen.storyboard */; };
+		C4E9B46F23FF53CD001C03D0 /* PhotoAlbumViewController+NSFetchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E9B46E23FF53CD001C03D0 /* PhotoAlbumViewController+NSFetchResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +49,7 @@
 		C495263423F87D24005BD043 /* PhotoAlbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbum.swift; sourceTree = "<group>"; };
 		C495263623F87DF2005BD043 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		C495263823F88CAE005BD043 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
-		C495263A23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoAlbumViewController+Extension.swift"; sourceTree = "<group>"; };
+		C495263A23F8C014005BD043 /* PhotoAlbumViewController+CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoAlbumViewController+CollectionView.swift"; sourceTree = "<group>"; };
 		C495264F23F9D29B005BD043 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		C49D343323F3A80D0062224E /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C49D343623F3A80D0062224E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -61,6 +62,7 @@
 		C49D344723F3A80F0062224E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4E9B46823FB8B89001C03D0 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		C4E9B46C23FCA762001C03D0 /* VirtualTourist_createdate.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VirtualTourist_createdate.xcdatamodel; sourceTree = "<group>"; };
+		C4E9B46E23FF53CD001C03D0 /* PhotoAlbumViewController+NSFetchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoAlbumViewController+NSFetchResult.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,7 +80,8 @@
 			isa = PBXGroup;
 			children = (
 				C495262523F61798005BD043 /* ViewController+Extension.swift */,
-				C495263A23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift */,
+				C495263A23F8C014005BD043 /* PhotoAlbumViewController+CollectionView.swift */,
+				C4E9B46E23FF53CD001C03D0 /* PhotoAlbumViewController+NSFetchResult.swift */,
 				86556E5D23FB014A004CBA66 /* UICollectionView+Extension.swift */,
 				8636B80E23FDAA9100C319DD /* TravelLocationMapViewController+Extension.swift */,
 			);
@@ -266,7 +269,7 @@
 				8636B80C23FC323C00C319DD /* Photo+Extension.swift in Sources */,
 				C495262423F61434005BD043 /* PhotoAlbumViewController.swift in Sources */,
 				C495263523F87D24005BD043 /* PhotoAlbum.swift in Sources */,
-				C495263B23F8C014005BD043 /* PhotoAlbumViewController+Extension.swift in Sources */,
+				C495263B23F8C014005BD043 /* PhotoAlbumViewController+CollectionView.swift in Sources */,
 				C495263323F87C2C005BD043 /* PhotoAlbumResponse.swift in Sources */,
 				C495265023F9D29B005BD043 /* CollectionViewCell.swift in Sources */,
 				C49D344123F3A80D0062224E /* VirtualTourist.xcdatamodeld in Sources */,
@@ -277,6 +280,7 @@
 				C49D343723F3A80D0062224E /* AppDelegate.swift in Sources */,
 				C495262623F61798005BD043 /* ViewController+Extension.swift in Sources */,
 				C49D343923F3A80D0062224E /* SceneDelegate.swift in Sources */,
+				C4E9B46F23FF53CD001C03D0 /* PhotoAlbumViewController+NSFetchResult.swift in Sources */,
 				C495262B23F64031005BD043 /* Constants.swift in Sources */,
 				C495263023F87056005BD043 /* FlickrClient.swift in Sources */,
 				C495263923F88CAE005BD043 /* ErrorResponse.swift in Sources */,

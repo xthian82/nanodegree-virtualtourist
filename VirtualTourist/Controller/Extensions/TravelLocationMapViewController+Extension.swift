@@ -70,7 +70,7 @@ extension TravelLocationMapViewController {
     // MARK: - Update Map Position
     func updateMapPosition(mapView: MKMapView) {
         print("updating map position")
-        let center = mapView.cameraZoomRange
+        //let center = mapView.cameraZoomRange
         
         //TODO:
         /**

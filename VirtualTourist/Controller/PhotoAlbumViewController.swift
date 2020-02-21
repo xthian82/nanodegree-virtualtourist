@@ -13,13 +13,12 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     
     //MARK: - Properties
     private let coordinateSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.3), longitudeDelta: CLLocationDegrees(0.3))
-    let itemsPerRow: CGFloat = 3
-    
     var currentLocation: MKAnnotation?
     var pin: Pin!
     var pages: Int?
     var isEditMode = false
     var fetchedPhotosController: NSFetchedResultsController<Photo>!
+    var blockOperations: [BlockOperation] = []
     
     //MARK: - Outlets
     @IBOutlet weak var albumMapView: MKMapView!
@@ -46,7 +45,7 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
             
             if fetchedPhotosController.fetchedObjects?.count == 0 {
                 newCollectionButton.isEnabled = false
-                downloadFlickrImages()
+                downloadFlickrImages(isFromCollectionButton: false)
             }
         }
     }
@@ -57,6 +56,15 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
             albumMapView.removeAnnotation(currentLocation)
         }
         fetchedPhotosController = nil
+    }
+    
+    deinit {
+        // Cancel all block operations when VC deallocates
+        for operation: BlockOperation in blockOperations {
+            operation.cancel()
+        }
+
+        blockOperations.removeAll(keepingCapacity: false)
     }
     
     //MARK: - MapView
@@ -72,18 +80,31 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @IBAction func collectionButtonTapped(_ sender: UIButton) {
-        newCollectionButton.isEnabled = false
-        
-        if (isEditMode) {
-            deleteCellItems()
+        if isEditMode {
+            deleteCellItems(cellsToDelete: collectionView.indexPathsForSelectedItems)
         } else {
-            downloadFlickrImages()
+            downloadFlickrImages(isFromCollectionButton: true)
         }
+        try? fetchedPhotosController.performFetch()
     }
     
     // MARK: - Helpers functions
     // handle action button text
     func changeTextButton() {
         newCollectionButton.setTitle(isEditMode ? "Remove from collection" : "New Collection", for: .normal)
+    }
+    
+    private func getAllIndexesFromCollection(numberOfItems: Int) -> [IndexPath]? {
+        //let numberOfItems = collectionView.numberOfItems(inSection: 0)
+        
+        if numberOfItems <= 0 {
+            return nil
+        }
+        
+        var indexPathSet:[IndexPath]? = []
+        for row in 0..<numberOfItems {
+            indexPathSet!.append(IndexPath(row: row, section: 0))
+        }
+        return indexPathSet
     }
 }

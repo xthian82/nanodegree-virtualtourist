@@ -10,22 +10,20 @@ import CoreData
 class PersistentContainer {
     
     static let shared = PersistentContainer(modelName: "VirtualTourist")
+    private let lockQueue = DispatchQueue(label: "PersistentContainer.lockQueue")
     
     let container: NSPersistentContainer
         
     var viewContext: NSManagedObjectContext {
-        return container.viewContext
+        get {
+            return lockQueue.sync {
+                return container.viewContext
+            }
+        }
     }
         
-    //var backgroundContext: NSManagedObjectContext!
-        
     func configureContexts() {
-        //backgroundContext = container.newBackgroundContext()
-            
         viewContext.automaticallyMergesChangesFromParent = true
-        //backgroundContext.automaticallyMergesChangesFromParent = true
-            
-        //backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
         viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
         
@@ -39,7 +37,7 @@ class PersistentContainer {
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
-            self.autoSaveViewContext()
+            //self.autoSaveViewContext()
             self.configureContexts()
             completion?()
         }
@@ -58,10 +56,12 @@ class PersistentContainer {
         }
     }
     
-    func deleObject(object: NSManagedObject) {
-        print("deleting \(object)")
+    func deleObject(object: NSManagedObject, save: Bool = true) {
+        //print("deleting \(object)")
         viewContext.delete(object)
-        saveContext()
+        if save {
+            saveContext()
+        }
     }
     
     private func autoSaveViewContext(interval: TimeInterval = 30) {
