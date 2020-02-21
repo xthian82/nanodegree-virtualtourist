@@ -69,16 +69,28 @@ extension TravelLocationMapViewController {
     
     // MARK: - Update Map Position
     func updateMapPosition(mapView: MKMapView) {
-        print("updating map position")
-        //let center = mapView.cameraZoomRange
+        print("===============> updating map position <===============")
+        let fetchRequest: NSFetchRequest<LastMapPosition> = LastMapPosition.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        //TODO:
-        /**
-         var mapCamera: MKMapCamera?
-         var mapRegion: MKCoordinateRegion?
-         var mapCameraZoom: MKMapView.CameraZoomRange?
-         var mapCenter: CLLocationCoordinate2D?
-         */
-        // PersistentContainer.shared.saveContext()
+        let lastMap: LastMapPosition
+        let lastMapPositionControler = setupFetchController(fetchRequest, delegate: self)
+        
+        if let fetchedObjects = lastMapPositionControler.fetchedObjects, fetchedObjects.count > 0 {
+            // found we update
+            print("ooo | updating last location")
+            lastMap = fetchedObjects.first!
+        } else {
+            // not found, we insert
+            print("+++ | inserting last location")
+            lastMap = LastMapPosition(context: PersistentContainer.shared.viewContext)
+        }
+        
+        loadCamera(lastMap, mapView.camera)
+        loadCamZoomRange(lastMap, mapView.cameraZoomRange)
+        loadCenter(lastMap, mapView.center)
+        loadRegion(lastMap, mapView.region)
+        PersistentContainer.shared.saveContext()
+        print("===============> end updating map position <===============")
     }
 }

@@ -73,4 +73,31 @@ extension UIViewController {
         performFetchRequest(fetchedResultController)
         return fetchedResultController
     }
+    
+    // MARK: - MapData Load Helpers
+    func loadRegion(_ lastMap: LastMapPosition, _ region: MKCoordinateRegion) {
+        lastMap.regCenLat = region.center.latitude
+        lastMap.regCenLon = region.center.longitude
+        lastMap.regSpaLatDelta = region.span.latitudeDelta
+        lastMap.regSpaLonDelta = region.span.longitudeDelta
+    }
+    
+    func loadCenter(_ lastMap: LastMapPosition, _ center: CGPoint) {
+        lastMap.centerX = Double(center.x)
+        lastMap.centerY = Double(center.y)
+    }
+    
+    func loadCamera(_ lastMap: LastMapPosition, _ camera: MKMapCamera) {
+        lastMap.camCenterLat = camera.centerCoordinate.latitude
+        lastMap.camCenterLon = camera.centerCoordinate.longitude
+        lastMap.camDistance = camera.centerCoordinateDistance
+        lastMap.camPitch = Double(camera.pitch)
+        lastMap.camHeading = camera.heading
+    }
+    
+    func loadCamZoomRange(_ lastMap: LastMapPosition, _ cameraZoomRange: MKMapView.CameraZoomRange) {
+        lastMap.camZooMaxDis = cameraZoomRange.maxCenterCoordinateDistance
+        lastMap.camZooMinDis = cameraZoomRange.minCenterCoordinateDistance
+    }
+    
 }

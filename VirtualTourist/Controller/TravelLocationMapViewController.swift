@@ -33,16 +33,17 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         fetchedResultController = setupFetchController(createFetchRequest(), delegate: self)
         loadAnnotations(mapView: self.mapView)
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        updateMapPosition(mapView: mapView)
-    }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         fetchedResultController = nil
+        updateMapPosition(mapView: mapView)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        print("I will disappear!!!")
+    }
+    
     // MARK: - Map Functions
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let map = getPinViewFromMap(mapView, annotation: annotation, identifier: Constants.pinId, animate: isTapGesture)
