@@ -29,7 +29,6 @@ extension TravelLocationMapViewController {
         isTapGesture = false
         
         if let pins = fetchedResultController.fetchedObjects {
-            print("pins size [\(pins.count)]")
             for pin in pins {
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
@@ -77,11 +76,9 @@ extension TravelLocationMapViewController {
         
         if let fetchedObjects = lastMapPositionControler.fetchedObjects, fetchedObjects.count > 0 {
             // found we update
-            print("ooo | updating last location")
             lastMap = fetchedObjects.first!
         } else {
             // not found, we insert
-            print("+++ | inserting last location")
             lastMap = LastMapPosition(context: PersistentContainer.shared.viewContext)
         }
         

@@ -54,12 +54,10 @@ class PersistentContainer {
         }
     }
     
-    func deleObject(object: NSManagedObject, save: Bool = true) {
+    func deleObject(object: NSManagedObject) {
         print("deleting \(object)")
         viewContext.delete(object)
-        if save {
-            saveContext()
-        }
+        saveContext()
     }
     
     private func autoSaveViewContext(interval: TimeInterval = 30) {

@@ -40,11 +40,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         fetchedResultController = nil
         updateMapPosition(mapView: mapView)
     }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        print("I will disappear!!!")
-    }
     
     // MARK: - Map Functions
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -104,17 +99,29 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
 
         print("navigate to last ....")
         // center location
-        //let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(current.centerX), longitude: CLLocationDegrees(current.centerY))
-        // region zone
-        let regCoordLoc = CLLocationCoordinate2D(latitude: CLLocationDegrees(current.regCenLat), longitude: CLLocationDegrees(current.regCenLon))
+        /*let regCoordLoc = CLLocationCoordinate2D(latitude: CLLocationDegrees(current.regCenLat), longitude: CLLocationDegrees(current.regCenLon))
         let regCoordSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(current.regSpaLatDelta), longitudeDelta: CLLocationDegrees(current.regSpaLonDelta))
-        let region = MKCoordinateRegion(center: regCoordLoc, span: regCoordSpan)
+        let region = MKCoordinateRegion(center: regCoordLoc, span: regCoordSpan)*/
+        let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: CLLocationDegrees(current.regCenLat),
+                                                                       longitude: CLLocationDegrees(current.regCenLon)),
+                                        span: MKCoordinateSpan(latitudeDelta: CLLocationDegrees(current.regSpaLatDelta),
+                                                               longitudeDelta: CLLocationDegrees(current.regSpaLonDelta))
+                    )
         
         // zoome range
-        let camZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: CLLocationDistance(current.camZooMinDis), maxCenterCoordinateDistance: CLLocationDistance(current.camZooMaxDis))
+        let camZoomRange = MKMapView.CameraZoomRange(
+            minCenterCoordinateDistance: CLLocationDistance(current.camZooMinDis),
+            maxCenterCoordinateDistance: CLLocationDistance(current.camZooMaxDis)
+        )
+        
         // camera
-        let cameraCenter = CLLocationCoordinate2DMake(CLLocationDegrees(current.camCenterLat), CLLocationDegrees(current.camCenterLon))
-        let camera = MKMapCamera(lookingAtCenter: cameraCenter, fromDistance: CLLocationDistance(current.camDistance), pitch: CGFloat(current.camPitch), heading: CLLocationDirection(current.camHeading))
+        let cameraCenter = CLLocationCoordinate2DMake(CLLocationDegrees(current.camCenterLat),
+                                                      CLLocationDegrees(current.camCenterLon))
+        
+        let camera = MKMapCamera(lookingAtCenter: cameraCenter,
+                                 fromDistance: CLLocationDistance(current.camDistance),
+                                 pitch: CGFloat(current.camPitch),
+                                 heading: CLLocationDirection(current.camHeading))
 
         mapView.center = CGPoint(x: current.centerX, y: current.centerY)
         mapView.setRegion(region, animated: false)

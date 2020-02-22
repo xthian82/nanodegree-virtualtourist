@@ -27,20 +27,15 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     
     func clearFetchedPhotos(isFromCollectionButton: Bool) {
         if !isFromCollectionButton {
-            print("loading from view, no need to delete")
             return
         }
         
         guard let photos = fetchedPhotosController.fetchedObjects else {
-            print("no photos to delete")
             return
         }
-        print("deleting all galley pics")
         for photo in photos {
-            PersistentContainer.shared.deleObject(object: photo, save: false)
+            PersistentContainer.shared.deleObject(object: photo)
         }
-        PersistentContainer.shared.saveContext()
-        print("we leave now")
     }
     
     // MARK: - Fetch Controller
@@ -51,89 +46,41 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         return fetchRequest
     }
-    
-    // MARK: - Core Data didChangeSection
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        let indexSet = IndexSet(integer: sectionIndex)
-           
-        switch type {
-        case .insert:
-            print("Insert Section: \(sectionIndex)")
-            blockOperations.append(BlockOperation(block: { [weak self] in
-                if let this = self {
-                    this.collectionView.insertSections(indexSet)
-                }})
-            )
-
-        case .update:
-            print("Update Section: \(sectionIndex)")
-            blockOperations.append(BlockOperation(block: { [weak self] in
-                if let this = self {
-                    this.collectionView.reloadSections(indexSet)
-                }
-            }))
-
-        case .delete:
-            blockOperations.append(BlockOperation(block: { [weak self] in
-                if let this = self {
-                    this.collectionView.deleteSections(indexSet)
-                }
-            }))
-
-        default:
-            fatalError("Invalid change type in controller(_:didChange:atSectionIndex:for:). Only .insert or .delete should be possible.")
-       }
-    }
-           
 
     // MARK: - Core Data didChange Object
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
         switch type {
         case .insert:
-            print("Insert Object: newIndex= \(newIndexPath), index = \(indexPath)")
-            blockOperations.append(BlockOperation(block: { [weak self] in
-                if let this = self {
-                    this.collectionView.insertItems(at: [newIndexPath!])
-                }
-            }))
-
+            insertedIndexPaths.append(newIndexPath!)
         case .delete:
-            print("delete Object: \(indexPath!)")
-            blockOperations.append(BlockOperation(block: { [weak self] in
-                if let this = self {
-                    this.collectionView.deleteItems(at: [indexPath!])
-                }
-            }))
-
+            deletedIndexPaths.append(indexPath!)
         case .update:
-            print("Update Object: \(indexPath!)")
-            blockOperations.append(BlockOperation(block: { [weak self] in
-                if let this = self {
-                    this.collectionView.reloadItems(at: [indexPath!])
-                }
-            }))
-
-        case .move:
-            print("Move Object: \(indexPath!)")
-            blockOperations.append(BlockOperation(block: { [weak self] in
-                if let this = self {
-                    this.collectionView.moveItem(at: indexPath!, to: newIndexPath!)
-                }
-            }))
-
+            updatedIndexPaths.append(indexPath!)
        default:
             break
        }
     }
-    /*
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        insertedIndexPaths = [IndexPath]()
+        deletedIndexPaths = [IndexPath]()
+        updatedIndexPaths = [IndexPath]()
+    }
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.collectionView.performBatchUpdates({ () -> Void in
-            for operation: BlockOperation in self.blockOperations {
-                operation.start()
+        collectionView.performBatchUpdates({() -> Void in
+            for indexPath in self.insertedIndexPaths {
+                self.collectionView.insertItems(at: [indexPath])
             }
-        }, completion: { (finished) -> Void in
-            self.blockOperations.removeAll(keepingCapacity: false)
-        })
-    }*/
+            
+            for indexPath in self.deletedIndexPaths {
+                self.collectionView.deleteItems(at: [indexPath])
+            }
+            
+            for indexPath in self.updatedIndexPaths {
+                self.collectionView.reloadItems(at: [indexPath])
+            }
+        }, completion: nil)
+    }
 }

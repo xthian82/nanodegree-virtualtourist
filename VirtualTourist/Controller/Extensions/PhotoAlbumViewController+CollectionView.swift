@@ -33,9 +33,12 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.collectionViewCell, for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCell.id, for: indexPath) as! CollectionViewCell
+        
         let photo = fetchedPhotosController.object(at: indexPath)
-        cell.imageViewDetail.image = UIImage(data: photo.image!)
+        if  let image = photo.image {
+            cell.imageViewDetail.image = UIImage(data: image)
+        }
         
         return cell
     }

@@ -10,6 +10,7 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
 
+    static let id = "CollectionViewCell"
     @IBOutlet var imageViewDetail: UIImageView!
     
     override var isSelected: Bool {

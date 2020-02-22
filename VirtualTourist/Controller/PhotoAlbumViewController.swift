@@ -20,7 +20,9 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     var pages: Int?
     var isEditMode = false
     var fetchedPhotosController: NSFetchedResultsController<Photo>!
-    var blockOperations: [BlockOperation] = []
+    var insertedIndexPaths: [IndexPath]!
+    var deletedIndexPaths: [IndexPath]!
+    var updatedIndexPaths: [IndexPath]!
     
     //MARK: - Outlets
     @IBOutlet weak var albumMapView: MKMapView!
@@ -57,15 +59,6 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
             albumMapView.removeAnnotation(currentLocation)
         }
         fetchedPhotosController = nil
-    }
-    
-    deinit {
-        // Cancel all block operations when VC deallocates
-        for operation: BlockOperation in blockOperations {
-            operation.cancel()
-        }
-
-        blockOperations.removeAll(keepingCapacity: false)
     }
     
     //MARK: - MapView
