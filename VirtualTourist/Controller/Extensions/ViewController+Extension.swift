@@ -100,4 +100,11 @@ extension UIViewController {
         lastMap.camZooMinDis = cameraZoomRange.minCenterCoordinateDistance
     }
     
+    // MARK: Alerts
+    func presentAlert(controller: UIViewController, title: String, message: String) {
+        let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        controller.present(alertVC, animated: true, completion: nil)
+    }
+    
 }

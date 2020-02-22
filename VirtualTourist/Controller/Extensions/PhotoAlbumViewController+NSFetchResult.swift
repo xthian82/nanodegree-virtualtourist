@@ -57,6 +57,8 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
             deletedIndexPaths.append(indexPath!)
         case .update:
             updatedIndexPaths.append(indexPath!)
+        case .move:
+            movedIndexPaths[indexPath!] = newIndexPath!
        default:
             break
        }
@@ -66,6 +68,7 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
         insertedIndexPaths = [IndexPath]()
         deletedIndexPaths = [IndexPath]()
         updatedIndexPaths = [IndexPath]()
+        movedIndexPaths = [IndexPath: IndexPath]()
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -80,6 +83,10 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
             
             for indexPath in self.updatedIndexPaths {
                 self.collectionView.reloadItems(at: [indexPath])
+            }
+            
+            for (at, to) in self.movedIndexPaths {
+                self.collectionView.moveItem(at: at, to: to)
             }
         }, completion: nil)
     }
