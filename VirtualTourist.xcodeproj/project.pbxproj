@@ -488,7 +488,6 @@
 			isa = XCVersionGroup;
 			children = (
 				8636B80D23FD796700C319DD /* VirtualTourist_hashPin.xcdatamodel */,
-				C4E9B46C23FCA762001C03D0 /* VirtualTourist_createdate.xcdatamodel */,
 				C49D344023F3A80D0062224E /* VirtualTourist.xcdatamodel */,
 			);
 			currentVersion = 8636B80D23FD796700C319DD /* VirtualTourist_hashPin.xcdatamodel */;
