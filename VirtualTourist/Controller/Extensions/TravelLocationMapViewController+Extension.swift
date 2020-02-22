@@ -25,7 +25,7 @@ extension TravelLocationMapViewController {
     }
     
     // MARK: - Load locations
-    func loadAnnotations(mapView: MKMapView) {
+    func loadAnnotations() {
         isTapGesture = false
         
         if let pins = fetchedResultController.fetchedObjects {
@@ -47,12 +47,17 @@ extension TravelLocationMapViewController {
     }
     
     // MARK: - Remove Pin
-    func deletePin(annotation: MKAnnotation) {
+    func deletePin(annotation: MKAnnotation, completion: @escaping (Bool) -> Void) {
         if let pin = fetchPinFromMap(annotation) {
             let pinToDelete = PersistentContainer.shared.viewContext.object(with: pin.objectID)
             PersistentContainer.shared.deleObject(object: pinToDelete)
         } else {
             print("pin not found from annotation \(annotation)!!!!!")
+        }
+        try? self.fetchedResultController.performFetch()
+        
+        DispatchQueue.main.async {
+            completion(true)
         }
     }
     

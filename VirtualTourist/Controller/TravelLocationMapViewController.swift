@@ -32,7 +32,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
     
     override func viewWillAppear(_ animated: Bool) {
         fetchedResultController = setupFetchController(createFetchRequest(), delegate: self)
-        loadAnnotations(mapView: self.mapView)
+        loadAnnotations()
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -50,15 +50,13 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         // remove selection for later "re-selection"
-        
+        mapView.deselectAnnotation(view.annotation, animated: false)
         if deleteMode {
-            deletePin(annotation: view.annotation!)
-            DispatchQueue.main.async {
-                self.mapView.removeAnnotations([view.annotation!])
-                self.performFetchRequest(self.fetchedResultController)
+            deletePin(annotation: view.annotation!) { didFinish in
+                self.mapView.removeAnnotations(self.mapView.annotations)
+                self.loadAnnotations()
             }
         } else {
-            mapView.deselectAnnotation(view.annotation, animated: false)
             let photoAlbumViewController = self.storyboard!.instantiateViewController(withIdentifier: Constants.photoAlbumControllerId) as! PhotoAlbumViewController
             photoAlbumViewController.currentLocation = view.annotation!
             photoAlbumViewController.pin = fetchPinFromMap(view.annotation!)
@@ -93,15 +91,10 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
               
         let lastMapPositionControler = setupFetchController(fetchRequest, delegate: self)
         guard let fetched = lastMapPositionControler.fetchedObjects, let current = fetched.first else {
-            print("not saved last post, returning...")
             return
         }
 
-        print("navigate to last ....")
         // center location
-        /*let regCoordLoc = CLLocationCoordinate2D(latitude: CLLocationDegrees(current.regCenLat), longitude: CLLocationDegrees(current.regCenLon))
-        let regCoordSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(current.regSpaLatDelta), longitudeDelta: CLLocationDegrees(current.regSpaLonDelta))
-        let region = MKCoordinateRegion(center: regCoordLoc, span: regCoordSpan)*/
         let region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: CLLocationDegrees(current.regCenLat),
                                                                        longitude: CLLocationDegrees(current.regCenLon)),
                                         span: MKCoordinateSpan(latitudeDelta: CLLocationDegrees(current.regSpaLatDelta),
