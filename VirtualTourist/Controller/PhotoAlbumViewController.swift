@@ -13,6 +13,8 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     
     //MARK: - Properties
     private let coordinateSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.3), longitudeDelta: CLLocationDegrees(0.3))
+    let noOfCellsInRow = 3
+    
     var currentLocation: MKAnnotation?
     var pin: Pin!
     var pages: Int?
@@ -25,7 +27,6 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var newCollectionButton: UIButton!
-    
     
     //MARK: - Navigation Functions
     override func viewDidLoad() {
