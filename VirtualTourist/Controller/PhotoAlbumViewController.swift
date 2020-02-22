@@ -13,7 +13,9 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     
     //MARK: - Properties
     private let coordinateSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(0.3), longitudeDelta: CLLocationDegrees(0.3))
-    let noOfCellsInRow = 3
+    let noOfCellsInRow:CGFloat = 3.0
+    let spacingBetweenCells:CGFloat = 1.0
+    let spacing:CGFloat = 1.0
     
     var currentLocation: MKAnnotation?
     var pin: Pin!
@@ -32,6 +34,12 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     @IBOutlet weak var newCollectionButton: UIButton!
     
     //MARK: - Navigation Functions
+    fileprivate func setupLayout() {
+        flowLayout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+        flowLayout.minimumLineSpacing = spacing
+        flowLayout.minimumInteritemSpacing = spacing
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         albumMapView.delegate = self
@@ -60,6 +68,11 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
             albumMapView.removeAnnotation(currentLocation)
         }
         fetchedPhotosController = nil
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        setupLayout()
+        flowLayout.invalidateLayout()
     }
     
     //MARK: - MapView
@@ -181,11 +194,11 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
         DispatchQueue.global(qos: .userInitiated).async { () -> Void in
             for indexPath in indexPaths {
                 self.deletePhoto(indexPath)
-                
-                DispatchQueue.main.async(execute: { () -> Void in
-                    completionHandler(true)
-                })
             }
+            
+            DispatchQueue.main.async(execute: { () -> Void in
+                completionHandler(true)
+            })
         }
     }
 }

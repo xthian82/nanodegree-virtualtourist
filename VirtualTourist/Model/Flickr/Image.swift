@@ -32,6 +32,6 @@ struct Image: Codable {
     }
     
     func imageLocation() -> URL? {
-        return URL(string: "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_q.jpg")
+        return URL(string: "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_n.jpg")
     }
 }
