@@ -93,18 +93,4 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
     func changeTextButton() {
         newCollectionButton.setTitle(isEditMode ? "Remove from collection" : "New Collection", for: .normal)
     }
-    
-    private func getAllIndexesFromCollection(numberOfItems: Int) -> [IndexPath]? {
-        //let numberOfItems = collectionView.numberOfItems(inSection: 0)
-        
-        if numberOfItems <= 0 {
-            return nil
-        }
-        
-        var indexPathSet:[IndexPath]? = []
-        for row in 0..<numberOfItems {
-            indexPathSet!.append(IndexPath(row: row, section: 0))
-        }
-        return indexPathSet
-    }
 }

@@ -69,7 +69,6 @@ extension TravelLocationMapViewController {
     
     // MARK: - Update Map Position
     func updateMapPosition(mapView: MKMapView) {
-        print("===============> updating map position <===============")
         let fetchRequest: NSFetchRequest<LastMapPosition> = LastMapPosition.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
@@ -91,6 +90,5 @@ extension TravelLocationMapViewController {
         loadCenter(lastMap, mapView.center)
         loadRegion(lastMap, mapView.region)
         PersistentContainer.shared.saveContext()
-        print("===============> end updating map position <===============")
     }
 }

@@ -27,6 +27,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         // Do any additional setup after loading the view.
         enableTopBarButtons(deleteMode)
         mapView.delegate = self
+        positionLastLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,6 +42,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
         print("I will disappear!!!")
     }
     
@@ -50,14 +52,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
         isTapGesture = false
         return map
     }
-    
-    /*
-    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-        mapCamera = mapView.camera
-        mapRegion = mapView.region
-        mapCameraZoom = mapView.cameraZoomRange
-        mapCenter = mapView.centerCoordinate
-    } */
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         // remove selection for later "re-selection"
@@ -96,5 +90,35 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, UINa
     func enableTopBarButtons(_ isDeleteMode: Bool) {
         deleteBarButton.image = UIImage(systemName: !deleteMode ? "trash" : "trash.slash")
         view.frame.origin.y = !deleteMode ? 0 : -60
+    }
+    
+    private func positionLastLocation() {
+        let fetchRequest: NSFetchRequest<LastMapPosition> = LastMapPosition.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+              
+        let lastMapPositionControler = setupFetchController(fetchRequest, delegate: self)
+        guard let fetched = lastMapPositionControler.fetchedObjects, let current = fetched.first else {
+            print("not saved last post, returning...")
+            return
+        }
+
+        print("navigate to last ....")
+        // center location
+        //let center = CLLocationCoordinate2D(latitude: CLLocationDegrees(current.centerX), longitude: CLLocationDegrees(current.centerY))
+        // region zone
+        let regCoordLoc = CLLocationCoordinate2D(latitude: CLLocationDegrees(current.regCenLat), longitude: CLLocationDegrees(current.regCenLon))
+        let regCoordSpan = MKCoordinateSpan(latitudeDelta: CLLocationDegrees(current.regSpaLatDelta), longitudeDelta: CLLocationDegrees(current.regSpaLonDelta))
+        let region = MKCoordinateRegion(center: regCoordLoc, span: regCoordSpan)
+        
+        // zoome range
+        let camZoomRange = MKMapView.CameraZoomRange(minCenterCoordinateDistance: CLLocationDistance(current.camZooMinDis), maxCenterCoordinateDistance: CLLocationDistance(current.camZooMaxDis))
+        // camera
+        let cameraCenter = CLLocationCoordinate2DMake(CLLocationDegrees(current.camCenterLat), CLLocationDegrees(current.camCenterLon))
+        let camera = MKMapCamera(lookingAtCenter: cameraCenter, fromDistance: CLLocationDistance(current.camDistance), pitch: CGFloat(current.camPitch), heading: CLLocationDirection(current.camHeading))
+
+        mapView.center = CGPoint(x: current.centerX, y: current.centerY)
+        mapView.setRegion(region, animated: false)
+        mapView.setCamera(camera, animated: false)
+        mapView.setCameraZoomRange(camZoomRange, animated: false)
     }
 }
