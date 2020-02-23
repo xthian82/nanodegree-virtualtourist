@@ -9,7 +9,7 @@ import CoreData
 
 class PersistentContainer {
     
-    static let shared = PersistentContainer(modelName: "VirtualTourist")
+    static let shared = PersistentContainer(modelName: "VTourist")
     private let lockQueue = DispatchQueue(label: "PersistentContainer.lockQueue")
     
     let container: NSPersistentContainer

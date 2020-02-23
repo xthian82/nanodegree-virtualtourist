@@ -19,17 +19,18 @@
     <entity name="Photo" representedClassName="Photo" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
-        <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pin" inverseName="images" inverseEntity="Pin"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pin" inverseName="photos" inverseEntity="Pin"/>
     </entity>
     <entity name="Pin" representedClassName="Pin" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="images" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="pin" inverseEntity="Photo"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" usesScalarValueType="YES"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photo" inverseName="pin" inverseEntity="Photo"/>
     </entity>
     <elements>
-        <element name="LastMapPosition" positionX="9.96875" positionY="111.8125" width="128" height="253"/>
-        <element name="Photo" positionX="133.15625" positionY="-7.01171875" width="128" height="88"/>
-        <element name="Pin" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="Pin" positionX="-408.609375" positionY="23.5078125" width="128" height="103"/>
+        <element name="Photo" positionX="-178.51171875" positionY="17.09765625" width="128" height="103"/>
+        <element name="LastMapPosition" positionX="-197.7890625" positionY="222.33984375" width="128" height="253"/>
     </elements>
 </model>
