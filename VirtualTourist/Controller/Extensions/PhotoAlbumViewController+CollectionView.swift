@@ -43,7 +43,7 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         if  let image = photo.image {
             cell.imageViewDetail.image = UIImage(data: image)
         }
-        
+        setImage(cell, photo: photo)
         return cell
     }
 
@@ -63,5 +63,29 @@ extension PhotoAlbumViewController: UICollectionViewDelegate, UICollectionViewDa
         
         let width = (collectionView.bounds.width - totalSpacing)/noOfCellsInRow
         return CGSize(width: width, height: width)
+    }
+    
+    // MARK: Download Helper
+    private func setImage(_ cell: CollectionViewCell, photo: Photo) {
+        if let imageData = photo.image {
+            cell.activityDownload.stopAnimating()
+            cell.imageViewDetail.image = UIImage(data: imageData)
+        } else {
+            if let imageUrl = photo.imageUrl {
+                DispatchQueue.main.async {
+                    cell.activityDownload.startAnimating()
+                }
+                DispatchQueue.global(qos: .background).async { () -> Void in
+                    if let imgData = try? Data(contentsOf: URL(string: imageUrl)!) {
+                        DispatchQueue.main.async(execute: { () -> Void in
+                            photo.image = imgData
+                            PersistentContainer.shared.saveContext()
+                            cell.imageViewDetail.image = UIImage(data: imgData)
+                            cell.activityDownload.stopAnimating()
+                        })
+                    }
+                }
+            }
+        }
     }
 }

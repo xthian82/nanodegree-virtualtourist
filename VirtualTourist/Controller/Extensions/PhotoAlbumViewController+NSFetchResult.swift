@@ -11,9 +11,9 @@ import CoreData
 extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     
     // MARK: - Add Photo
-    func addPhoto(_ image: Data) {
+    func addPhoto(_ imageUrl: String) {
         let photo = Photo(context: PersistentContainer.shared.viewContext)
-        photo.image = image
+        photo.imageUrl = imageUrl
         photo.pin = pin
         
         PersistentContainer.shared.saveContext()
@@ -69,6 +69,7 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
         deletedIndexPaths = [IndexPath]()
         updatedIndexPaths = [IndexPath]()
         movedIndexPaths = [IndexPath: IndexPath]()
+        self.newCollectionButton.isEnabled = false
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -88,6 +89,8 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
             for (at, to) in self.movedIndexPaths {
                 self.collectionView.moveItem(at: at, to: to)
             }
-        }, completion: nil)
+        }) { _ in
+            self.newCollectionButton.isEnabled = true
+        }
     }
 }

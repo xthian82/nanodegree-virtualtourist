@@ -127,13 +127,13 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
                 return
             }
             
-            self.newCollectionButton.isEnabled = false
+            // self.newCollectionButton.isEnabled = false
             self.pages = photoAlbum.photos.pages
-            self.asyncDowload(photoAlbum.photos.photo, isFromCollectionButton: isFromCollectionButton, completionHandler: { hasData in
+            self.reloadImages(photoAlbum.photos.photo, isFromCollectionButton: isFromCollectionButton, completionHandler: { hasData in
                 if hasData {
                     self.collectionView.reloadData()
                 }
-                self.newCollectionButton.isEnabled = true
+                // self.newCollectionButton.isEnabled = true
             })
         }
     }
@@ -160,6 +160,22 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
         return selectedItems.count > 0
     }
 
+    private func reloadImages(_ images: [Image]?, isFromCollectionButton: Bool, completionHandler: @escaping (_ disFinish: Bool) -> Void) {
+        guard let images = images else {
+            completionHandler(false)
+            return
+        }
+        // first we delete any pic if any
+        self.clearFetchedPhotos(isFromCollectionButton: isFromCollectionButton)
+        for image in images {
+            self.addPhoto(image.imageUrl())
+            DispatchQueue.main.async(execute: { () -> Void in
+                completionHandler(true)
+            })
+        }
+    }
+    
+    /*
     /// download image from collection cell in the background
     private func asyncDowload(_ images: [Image]?, isFromCollectionButton: Bool, completionHandler: @escaping (_ disFinish: Bool) -> Void) {
         guard let images = images else {
@@ -181,7 +197,7 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
                 }
             }
         }
-    }
+    } */
     
     /// delete all cells in the background
     private func asyncDelete(indexCells: [IndexPath]?, completionHandler: @escaping (_ disFinish: Bool) -> Void) {

@@ -12,6 +12,7 @@ class CollectionViewCell: UICollectionViewCell {
 
     static let id = "CollectionViewCell"
     @IBOutlet var imageViewDetail: UIImageView!
+    @IBOutlet weak var activityDownload: UIActivityIndicatorView!
     
     override var isSelected: Bool {
         didSet {

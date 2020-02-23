@@ -55,7 +55,6 @@ class PersistentContainer {
     }
     
     func deleObject(object: NSManagedObject) {
-        print("deleting \(object)")
         viewContext.delete(object)
         saveContext()
     }

@@ -31,7 +31,11 @@ struct Image: Codable {
         case isFamily = "isfamily"
     }
     
+    func imageUrl() -> String {
+        return "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_n.jpg"
+    }
+    
     func imageLocation() -> URL? {
-        return URL(string: "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_n.jpg")
+        return URL(string: imageUrl())
     }
 }
