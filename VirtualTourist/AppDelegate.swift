@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-         print("applicationWillTerminate")
         PersistentContainer.shared.saveContext()
     }
 
@@ -36,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
-        print("applicationDidEnterBackground")
         PersistentContainer.shared.saveContext()
     }
 }

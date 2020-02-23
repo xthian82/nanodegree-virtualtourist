@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19D76" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="VTourist">
     <entity name="LastMapPosition" representedClassName="LastMapPosition" syncable="YES" codeGenerationType="class">
         <attribute name="camCenterLat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="camCenterLon" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -31,6 +31,6 @@
     <elements>
         <element name="Pin" positionX="-408.609375" positionY="23.5078125" width="128" height="103"/>
         <element name="Photo" positionX="-178.51171875" positionY="17.09765625" width="128" height="103"/>
-        <element name="LastMapPosition" positionX="-197.7890625" positionY="222.33984375" width="128" height="253"/>
+        <element name="LastMapPosition" positionX="-281.21484375" positionY="145.8125" width="128" height="253"/>
     </elements>
 </model>

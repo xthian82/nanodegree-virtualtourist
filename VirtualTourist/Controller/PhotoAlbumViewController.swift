@@ -174,31 +174,7 @@ class PhotoAlbumViewController: UIViewController, UINavigationControllerDelegate
             })
         }
     }
-    
-    /*
-    /// download image from collection cell in the background
-    private func asyncDowload(_ images: [Image]?, isFromCollectionButton: Bool, completionHandler: @escaping (_ disFinish: Bool) -> Void) {
-        guard let images = images else {
-            completionHandler(false)
-            return
-        }
-        //userInitiated
-        DispatchQueue.global(qos: .background).async { () -> Void in
-            // first we delete any pic if any
-            self.clearFetchedPhotos(isFromCollectionButton: isFromCollectionButton)
-            
-            for image in images {
-                if let url = image.imageLocation(), let imgData = try? Data(contentsOf: url) {
-                    
-                    self.addPhoto(imgData)
-                    DispatchQueue.main.async(execute: { () -> Void in
-                        completionHandler(true)
-                    })
-                }
-            }
-        }
-    } */
-    
+
     /// delete all cells in the background
     private func asyncDelete(indexCells: [IndexPath]?, completionHandler: @escaping (_ disFinish: Bool) -> Void) {
         guard let indexPaths = indexCells else {
